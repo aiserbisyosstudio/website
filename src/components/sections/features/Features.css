@@ -1,0 +1,275 @@
+.features-section,
+.steps-section {
+  padding: 2rem;
+  margin: auto;
+  margin-top: 3rem;
+}
+
+.section-tag {
+  text-align: center;
+  color: #7c3aed;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  font-family: var(--font-primary);
+}
+
+.features-section h2,
+.steps-section h2 {
+  text-align: center;
+  font-size: 2.3rem;
+  margin-bottom: 0.75rem;
+  font-family: var(--font-primary);
+  color: var(--color-primary);
+}
+
+.section-desc {
+  text-align: center;
+  color: #6b7280;
+  max-width: 700px;
+  margin: auto;
+  margin-bottom: 1rem;
+  font-family: var(--font-primary);
+}
+
+/* FEATURES */
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1.5rem;
+}
+
+.feature-cards {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  padding: 1.5rem;
+  transition: 0.3s;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.feature-cards:hover {
+  background: white;
+  border: 1px solid var(--gray-100);
+  scale: 1.05;
+}
+
+.feature-icon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+
+.feature-cards h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
+  color: var(--color-primary);
+  font-family: var(--font-primary);
+}
+
+.feature-cards p {
+  color: var(--color-primary);
+  line-height: 1.6;
+  font-size: 0.95rem;
+  font-family: var(--font-primary);
+}
+
+/* STEPS */
+
+.steps-wrapper {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  max-width: 25%;
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  padding: 1rem;
+  border-radius: 1rem;
+  background: var(--color-white);
+}
+
+.step-number {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: #4f46e5;
+  color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.step-icon {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background: #f5f3ff;
+  color: var(--color-primary);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.step h4 {
+  margin-bottom: 0.3rem;
+  font-family: var(--font-primary);
+  color: var(--color-primary);
+}
+
+.step p {
+  color: var(--color-primary);
+  font-size: 0.95rem;
+  font-family: var(--font-primary);
+}
+
+.step-arrow {
+  font-size: 1.5rem;
+  color: var(--color-primary);
+}
+
+.info-icon {
+  position: absolute;
+  bottom: 0.75rem;
+  right: 0.75rem;
+
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  color: var(--text-secondary);
+
+  position: absolute;
+}
+
+.tooltip {
+  position: absolute;
+  top: 120%;
+  right: 0;
+
+  min-width: 14rem;
+  padding: 0.5rem 0.75rem;
+
+  background: var(--color-primary);
+  color: var(--color-white);
+  border-radius: 0.5rem;
+  font-family: var(--font-primary);
+
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  text-align: left;
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-0.25rem);
+
+  transition: all 0.2s ease;
+  z-index: 100;
+  font-size: .8rem;
+  white-space: pre-line;
+}
+
+.tooltip::before {
+  content: "";
+  position: absolute;
+  top: -0.35rem;
+  right: 0.75rem;
+
+  width: 0.75rem;
+  height: 0.75rem;
+
+  background: var(--color-primary);
+  transform: rotate(45deg);
+}
+
+.info-icon:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* TABLET */
+
+@media (max-width: 1200px) {
+  .features-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+  .features-section,
+  .steps-section {
+    padding: 1rem;
+  }
+
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .steps-wrapper {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .step-arrow {
+    transform: rotate(90deg);
+  }
+
+  .step {
+    max-width: 100%;
+  }
+
+  .features-section h2,
+  .steps-section h2 {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .feature-cards {
+    padding: 1.25rem;
+  }
+
+  .step {
+    flex-direction: column;
+    text-align: center;
+  }
+}

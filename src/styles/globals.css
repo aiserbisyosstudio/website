@@ -1,0 +1,23 @@
+@import "./fonts.css";
+@import "./variables.css";
+@import "./reset.css";
+@import "./utilities.css";
+
+body {
+  font-family: var(--font-primary);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-regular);
+  color: var(--color-text);
+  background: var(--color-white);
+  line-height: 1.6;
+
+  background-image: url("../assets/images/background/home.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+#root {
+  min-height: 100vh;
+}
