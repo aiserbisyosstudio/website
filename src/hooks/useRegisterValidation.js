@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function useFormValidation(initialState, validate) {
+export default function useFormValidation(initialState, validate, t) {
   const [registerData, setRegisterData] = useState(initialState);
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
@@ -30,7 +30,7 @@ export default function useFormValidation(initialState, validate) {
   };
 
   const runValidation = (currentValues) => {
-    const validationErrors = validate(currentValues);
+    const validationErrors = validate(currentValues, t);
     setErrors(validationErrors || {});
     return validationErrors || {};
   };

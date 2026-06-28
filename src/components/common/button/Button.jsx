@@ -1,8 +1,8 @@
 import "./Button.css";
 
-export default function Button({ loading = false, children, ...props }) {
+export default function Button({customClass = "", loading = false, disabled = false, children, ...props }) {
   return (
-    <button className="btn" disabled={loading} {...props}>
+    <button className={`btn ${customClass}`} disabled={disabled} {...props}>
       {loading ? <span className="spinner"></span> : children}
     </button>
   );

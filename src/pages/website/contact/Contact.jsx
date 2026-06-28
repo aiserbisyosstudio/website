@@ -50,7 +50,6 @@ const Contact = () => {
         toast.error("Failed to send message!");
       }
     } catch (error) {
-      console.log(error.message);
       setLoading(false);
       toast.error("Failed to send message!");
     }
@@ -139,7 +138,7 @@ const Contact = () => {
                 />
 
                 <Input
-                  id="name"
+                  id="subject"
                   name="subject"
                   label={t("contact.contact.label.subject")}
                   placeholder={t("contact.contact.placeholder.subject")}
@@ -168,11 +167,12 @@ const Contact = () => {
                 <div className="btn-group">
                   <Button
                     loading={loading}
+                    disabled={loading}
                     onClick={handleSubmit(submitContact)}
                   >
                     {t("contact.buttons.sendmessage")}
                   </Button>
-                  <Button onClick={clearContactForm}>
+                  <Button disabled={loading} onClick={clearContactForm}>
                     {t("contact.buttons.clear")}
                   </Button>
                 </div>

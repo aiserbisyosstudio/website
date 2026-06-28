@@ -164,6 +164,7 @@
   width: 100%;
   border-radius: var(--radius-md);
   box-sizing: border-box;
+  margin-bottom: 2rem;
 }
 
 .balance-text {

@@ -10,9 +10,10 @@ export const login = async (payload) => {
   return response.data;
 };
 
-export const logout = async () => {
+export const logout = async (payload) => {
   const response = await api.post(
-    ENDPOINTS.AUTH.LOGOUT
+    ENDPOINTS.AUTH.LOGOUT,
+    payload
   );
 
   return response.data;

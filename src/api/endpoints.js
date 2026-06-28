@@ -5,7 +5,9 @@ const ENDPOINTS = {
   },
 
   USER: {
-    REGISTER: "/users/register",
+    REGISTER: "/user/register",
+    UPDATE_LANGUAGE: "/user/update-language",
+    UPDATE_PLAN: "/user/update-plan"
   },
 
   ORDER: {

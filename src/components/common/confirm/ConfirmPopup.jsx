@@ -15,15 +15,14 @@ export default function ConfirmPopup({
       <div className="confirm-popup">
         <p>{message}</p>
         <div className="confirm-actions">
-          <button className="confirm-btn cancel-btn" onClick={onCancel}>
-            {cancelText}
-          </button>
-
           <button
             className="confirm-btn confirm-btn-primary"
             onClick={onConfirm}
           >
             {confirmText}
+          </button>
+          <button className="confirm-btn cancel-btn" onClick={onCancel}>
+            {cancelText}
           </button>
         </div>
       </div>

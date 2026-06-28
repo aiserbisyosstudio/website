@@ -15,19 +15,19 @@ function PaymentModal({ isOpen, user, onClose }) {
     {
       id: "101",
       title: "Silver",
-      plan: "300 Credits",
-      price: "299",
+      plan: "400 Credits",
+      price: "399",
     },
     {
       id: "102",
       title: "Gold",
       plan: "800 Credits",
-      price: "999",
+      price: "1000",
     },
     {
       id: "103",
       title: "Platinum",
-      plan: "1500 Credits",
+      plan: "1800 Credits",
       price: "1999",
     },
   ];
@@ -77,14 +77,14 @@ function PaymentModal({ isOpen, user, onClose }) {
         <div className="payment-header">
           <h2>Buy Credits</h2>
 
-          <button className="close-btn" onClick={onClose}>
+          <Button className="close-btn" onClick={onClose}>
             ✕
-          </button>
+          </Button>
         </div>
 
         <div className="wallet-balance">
           <span className="balance-text">Available Credits</span>
-          <span className="balance-text">{user.credits}</span>
+          <span className="balance-text">{user.availableCredits}</span>
         </div>
 
         {/* Plans */}
@@ -107,7 +107,7 @@ function PaymentModal({ isOpen, user, onClose }) {
                 <h4>{plan.title}</h4>
 
                 <div className="plan-details">
-                  <span>{plan.credits} Credits</span>
+                  <span>{plan.plan}</span>
                   <span>₹{plan.price}</span>
                 </div>
               </div>
@@ -115,12 +115,11 @@ function PaymentModal({ isOpen, user, onClose }) {
           </div>
         </div>
 
-        <button
-          className="proceed-btn"
+        <Button
           style={{ marginTop: "1rem", marginBottom: ".5rem" }}
         >
           Transaction History
-        </button>
+        </Button>
         <Button loading={loading} onClick={() => handleProceed()}>
           Proceed to Pay
         </Button>

@@ -1,10 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./Footer.css";
 import { useTranslation } from "react-i18next";
 
 const Footer = () => {
   const { t } = useTranslation();
   const currentYear = new Date().getFullYear();
+  const location = useLocation();
 
   return (
     <footer className="footer">
@@ -22,15 +23,9 @@ const Footer = () => {
             <li>
               <Link to="/">{t("footer.quickLinks.home")}</Link>
             </li>
-
             <li>
               <Link to="/about">{t("footer.quickLinks.about")}</Link>
             </li>
-
-            <li>
-              <Link to="/features">{t("footer.quickLinks.features")}</Link>
-            </li>
-
             <li>
               <Link to="/contact">{t("footer.quickLinks.contact")}</Link>
             </li>
@@ -42,15 +37,13 @@ const Footer = () => {
           <h4>{t("footer.resources.title")}</h4>
           <ul>
             <li>
-              <Link to="/blog">{t("footer.resources.blog")}</Link>
+              <Link to="/blogs">{t("footer.resources.blogs")}</Link>
             </li>
-
             <li>
-              <Link to="/privacy-policy">{t("footer.resources.privacyPolicy")}</Link>
+              <Link to="/privacy-policy"state={{ from: location.pathname }}>{t("footer.resources.privacyPolicy")}</Link>
             </li>
-
             <li>
-              <Link to="/terms">{t("footer.resources.termsConditions")}</Link>
+              <Link to="/terms-conditions" state={{ from: location.pathname }}>{t("footer.resources.termsConditions")}</Link>
             </li>
           </ul>
         </div>

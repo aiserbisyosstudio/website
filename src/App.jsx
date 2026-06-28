@@ -22,7 +22,7 @@ function App() {
           fontFamily: getComputedStyle(
             document.documentElement,
           ).getPropertyValue("--font-primary"),
-          fontSize: ".9rem",
+          fontSize: ".8rem",
         }}
       />
     </>

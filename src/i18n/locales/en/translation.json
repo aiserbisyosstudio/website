@@ -5,7 +5,17 @@
     "features": "Features",
     "help": "Help & Support",
     "contact": "Contact",
-    "login": "Login/Register"
+    "login": "Login/Register",
+    "profile": {
+      "profile": "Profile",
+      "buycredits": "Buy Credits",
+      "logout": "Logout"
+    },
+    "logout": {
+      "title": "Are you sure you want to logout?",
+      "confirm": "Yes",
+      "cancel": "No"
+    }
   },
   "home": {
     "pageTitle": "Home | AISerbisyosStudio",
@@ -117,6 +127,8 @@
       "title": "PRICING",
       "heading": "Simple, Transparent Pricing",
       "popular": "Most Popular",
+      "close": "Close",
+      "currentPlan": "Current Plan",
       "cards": {
         "one": {
           "name": "Free Trial",
@@ -124,9 +136,8 @@
           "price": "₹0",
           "period": "/7 days",
           "features": [
-            "500 Credits",
+            "300 Credits",
             "Image Creation",
-            "Basic Image Editing",
             "Standard Quality"
           ],
           "button": "Start Free Trial"
@@ -134,12 +145,12 @@
         "two": {
           "name": "Silver",
           "subtitle": "Perfect for beginners",
-          "price": "₹299",
+          "price": "₹399",
           "period": "/month",
           "features": [
-            "300 Credits/month",
+            "400 Credits/month",
             "Image Creation",
-            "Basic Image Editing",
+            "Image Collage Creation",
             "Standard Quality"
           ],
           "button": "Get Started"
@@ -150,9 +161,10 @@
           "price": "₹999",
           "period": "/month",
           "features": [
-            "800 Credits/month",
-            "Image Creation",
-            "Image & Video Editing",
+            "1000 Credits/month",
+            "Image & Video Creation",
+            "Image Editing",
+            "Image Collage Creation",
             "HD Quality"
           ],
           "button": "Choose Gold"
@@ -163,13 +175,42 @@
           "price": "₹1999",
           "period": "/month",
           "features": [
-            "1500 Credits/month",
+            "1800 Credits/month",
             "Image & Video Creation",
             "Image & Video Editing",
-            "Image & Video Analysis"
+            "Image & Video Analysis",
+            "Image Collage Creation",
+            "HD Quality"
           ],
           "button": "Go Platinum"
         }
+      }
+    },
+    "card": {
+      "new": {
+        "title": "Welcome! Ready to Create? ✨",
+        "subtitle": "Start your free trial or choose a plan to unlock AI image generation, video creation, editing, collage, and analysis.",
+        "button": "Start Free Trial"
+      },
+      "trial": {
+        "title": "Free Trial Active",
+        "subtitle": "You have {{credits}} credits remaining. Enjoy Premium features during your trial. Upgrade before your trial ends to keep uninterrupted access.",
+        "button": "Upgrade Now"
+      },
+      "trialended": {
+        "title": "Your Free Trial Has Ended",
+        "subtitle": "Your free trial has expired. Subscribe to a plan to continue creating, editing, and analyzing images and videos.",
+        "button": "Upgrade Now"
+      },
+      "plan": {
+        "title": "Membership Active",
+        "subtitle": "You have {{credits}} credits remaining. Enjoy your membership and make the most of your AI credits and premium tools.",
+        "button": "Upgrade Now"
+      },
+      "planended": {
+        "title": "Membership Expired",
+        "subtitle": "Renew/Buy plan to regain maximum credits and full access to premium AI tools.",
+        "button": "Upgrade Now"
       }
     }
   },
@@ -187,7 +228,7 @@
     },
     "resources": {
       "title": "Resources",
-      "blog": "Blog",
+      "blogs": "Blogs",
       "privacyPolicy": "Privacy Policy",
       "termsConditions": "Terms & Conditions"
     },
@@ -311,5 +352,64 @@
         }
       ]
     }
+  },
+  "login": {
+    "return": "Return to Home",
+    "title": "Welcome Back",
+    "heading": "Login to continue",
+    "form": {
+      "label": {
+        "emailmobile": "Email Address/Mobile Number",
+        "password": "Password"
+      },
+      "placeholder": {
+        "emailmobile": "Please enter email address/mobile number",
+        "password": "Please enter password"
+      },
+      "errors": {
+        "emailmobile": "Please enter email address/mobile number",
+        "emailmobile1": "Enter valid email address or 10 digit mobile number",
+        "password": "Please enter password"
+      },
+      "buttons": {
+        "login": "Login",
+        "clear": "Clear"
+      }
+    },
+    "register": "Don't have an account?",
+    "link": "Register"
+  },
+  "register": {
+    "return": "Return to Home",
+    "title": "Create Account",
+    "heading": "Register to get started",
+    "form": {
+      "label": {
+        "name": "Full Name",
+        "mobile": "Mobile Number",
+        "email": "Email Address",
+        "password": "Password"
+      },
+      "placeholder": {
+        "name": "Please enter full name",
+        "mobile": "Please enter mobile number",
+        "email": "Please enter email address",
+        "password": "Please enter password"
+      },
+      "errors": {
+        "name": "Please enter full name",
+        "mobile": "Please enter mobile number",
+        "mobile1": "Mobile number must start with 6, 7, 8, or 9 and contain 10 digits",
+        "email": "Please enter email address",
+        "email1": "Enter a valid email address",
+        "password": "Please enter password"
+      },
+      "buttons": {
+        "register": "Register",
+        "clear": "Clear"
+      }
+    },
+    "login": "Already have an account?",
+    "link": "Login"
   }
 }

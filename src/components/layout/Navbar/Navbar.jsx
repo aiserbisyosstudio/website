@@ -7,21 +7,38 @@ import ConfirmPopup from "@/components/common/confirm/ConfirmPopup";
 import Loader from "@/components/common/loader/Loader";
 import { logout as logoutService } from "@/services/authService";
 import { logout as logoutAction } from "@/redux/slices/authSlice";
+import { clearUser } from "@/redux/slices/userSlice"
 import PaymentModal from "@/components/common/payment/PaymentModal";
 import { toast } from "react-toastify";
 import { createPlanOrder } from "@/services/orderService";
-import { IoGlobeOutline, IoChevronDownOutline, IoCheckmarkOutline } from "react-icons/io5";
+import {
+  IoGlobeOutline,
+  IoChevronDownOutline,
+  IoCheckmarkOutline,
+} from "react-icons/io5";
 import { useTranslation } from "react-i18next";
+import { updateLanguage } from "@/services/userService";
 
 const languages = [
-    { code: "en", label: "English" },
-    { code: "kn", label: "ಕನ್ನಡ" },
-    { code: "hi", label: "हिंदी" },
-  ];
+  { code: "en", label: "English" },
+  { code: "hi", label: "हिंदी" },
+  { code: "kn", label: "ಕನ್ನಡ" },
+];
 
 function Navbar() {
-  const user = useSelector((state) => state.auth.user);
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const user = useSelector((state) => state.user.profile);
+  const userPlan = useSelector((state) => state.user.userPlan);
+  const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
+  const location = useLocation();
+  const hideNavbarRoutes = [
+    "/auth/login",
+    "/auth/register",
+    "/terms-conditions",
+    "/privary-policy",
+    "/blog"
+  ];
+  const isAuthRoute = hideNavbarRoutes.includes(location.pathname);
+
   const [isOpen, setIsOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const isMobile = window.innerWidth <= 768;
@@ -33,10 +50,12 @@ function Navbar() {
   const [isAuthenticated, setIsAuthenticated] = useState(isLoggedIn);
   const [showPayment, setShowPayment] = useState(false);
   const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
-  const language = languages.filter(lang => lang.code === localStorage.getItem("language"))[0] || languages[0]
+  const language =
+    languages.filter(
+      (lang) => lang.code === localStorage.getItem("language"),
+    )[0] || languages[0];
   const [selectedLanguage, setSelectedLanguage] = useState(language);
 
-  const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { t, i18n } = useTranslation();
@@ -49,12 +68,12 @@ function Navbar() {
     { name: t("navigation.features"), path: "/features" },
     { name: t("navigation.help"), path: "/help-support" },
     { name: t("navigation.contact"), path: "/contact" },
-    { name: t("navigation.login"), path: "/login", auth: !isAuthenticated },
+    { name: t("navigation.login"), path: "/auth", auth: !isAuthenticated },
   ];
 
   useEffect(() => {
     document.documentElement.lang = selectedLanguage.code;
-  }, [selectedLanguage])
+  }, [selectedLanguage]);
 
   useEffect(() => {
     setLoggedinUser(user);
@@ -81,6 +100,8 @@ function Navbar() {
   }, []);
 
   const toggleLanguageMenu = () => {
+    setIsOpen(false);
+    setShowProfileMenu(false);
     setIsLanguageMenuOpen((prev) => !prev);
   };
 
@@ -91,23 +112,42 @@ function Navbar() {
       setLoading(true);
       const response = await logoutService({ userId: loggedinUser._id });
       setLoading(false);
-      dispatch(logout());
+      dispatch(logoutAction());
+      dispatch(clearUser());
       setIsAuthenticated(false);
       setLoggedinUser(null);
       navigate("/");
     } catch (error) {
-      console.log(error.message);
     }
   };
 
-  const handleLanguageChange = (language) => {
+  const handleLanguageChange = async (language) => {
     document.documentElement.lang = language.code;
     i18n.changeLanguage(language.code);
     localStorage.setItem("language", language.code);
     setSelectedLanguage(language);
     setIsLanguageMenuOpen(false);
     setIsOpen(false);
+    if( isAuthenticated ) {
+      try {
+        const userId = loggedinUser._id;
+        const code = language.code;
+        const label = language.label;
+        const response = await updateLanguage({userId, code, label});
+      } catch(error) {
+        console.log(error);
+      }
+    }
   };
+
+  const showPaymentModal = () => {
+    if( userPlan && userPlan.status == 'active' ) {
+      setShowProfileMenu(false);
+      toast.error("There is already an active plan");
+    } else {
+      setShowPayment(true);
+    }
+  }
 
   return (
     <>
@@ -121,93 +161,96 @@ function Navbar() {
 
           {/* Nav */}
           <div className="navbar-content">
-            {/* Mobile Toggle */}
-            <button
-              className="navbar__toggle"
-              onClick={() => {
-                setShowProfileMenu(false);
-                setIsOpen(!isOpen);
-              }}
-            >
-              ☰
-            </button>
-
-            <nav className={`navbar__nav ${isOpen ? "active" : ""}`}>
-              {navItems.map((item) => {
-                if (item.auth === false) return null;
-
-                return (
-                  <NavLink
-                    key={item.path}
-                    to={item.path}
-                    end={item.path === "/"}
-                    className={({ isActive }) =>
-                      `navbar__link ${isActive ? "active" : ""}`
-                    }
-                  >
-                    {item.name}
-                  </NavLink>
-                );
-              })}
-              <div className="language-dropdown">
+            {!isAuthRoute && (
+              <>
                 <button
-                  type="button"
-                  className="language-pill navbar__link"
-                  aria-label={`Selected language: ${selectedLanguage}`}
-                  aria-haspopup="menu"
-                  aria-expanded={isLanguageMenuOpen}
-                  onClick={toggleLanguageMenu}
+                  className="navbar__toggle"
+                  onClick={() => {
+                    setIsLanguageMenuOpen(false);
+                    setShowProfileMenu(false);
+                    setIsOpen(!isOpen);
+                  }}
                 >
-                  <IoGlobeOutline className="language-pill__icon" />
-                  <span className="language-pill__text">
-                    {selectedLanguage.label}
-                  </span>
-                  <IoChevronDownOutline className="language-pill__arrow" />
+                  ☰
                 </button>
+                <nav className={`navbar__nav ${isOpen ? "active" : ""}`}>
+                  {navItems.map((item) => {
+                    if (item.auth === false) return null;
 
-                {isLanguageMenuOpen && (
-                  <div className="language-dropdown__menu" role="menu">
-                    {languages.map((language) => (
-                      <button
-                        key={language.code}
-                        type="button"
-                        role="menuitem"
-                        className={`language-dropdown__item ${
-                          selectedLanguage.code === language.code
-                            ? "active"
-                            : ""
-                        }`}
-                        onClick={() => handleLanguageChange(language)}
+                    return (
+                      <NavLink
+                        key={item.path}
+                        to={item.path}
+                        end={item.path === "/"}
+                        className={({ isActive }) =>
+                          `navbar__link ${isActive ? "active" : ""}`
+                        }
                       >
-                        <span>{language.label}</span>
+                        {item.name}
+                      </NavLink>
+                    );
+                  })}
+                </nav>
+              </>
+            )}
 
-                        {selectedLanguage.code === language.code && (
-                          <IoCheckmarkOutline size={18} />
-                        )}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </nav>
+            <div className="language-dropdown">
+              <button
+                type="button"
+                className="language-pill"
+                aria-label={`Selected language: ${selectedLanguage}`}
+                aria-haspopup="menu"
+                aria-expanded={isLanguageMenuOpen}
+                onClick={toggleLanguageMenu}
+              >
+                <IoGlobeOutline className="language-pill__icon" />
+                <span className="language-pill__text">
+                  {selectedLanguage.code.toUpperCase()}
+                </span>
+                <IoChevronDownOutline className="language-pill__arrow" />
+              </button>
+
+              {isLanguageMenuOpen && (
+                <div className="language-dropdown__menu" role="menu">
+                  {languages.map((language) => (
+                    <button
+                      key={language.code}
+                      type="button"
+                      role="menuitem"
+                      className={`language-dropdown__item ${
+                        selectedLanguage.code === language.code ? "active" : ""
+                      }`}
+                      onClick={() => handleLanguageChange(language)}
+                    >
+                      <span>{language.label}</span>
+
+                      {selectedLanguage.code === language.code && (
+                        <IoCheckmarkOutline size={18} />
+                      )}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
 
             {isAuthenticated && (
               <div className="navbar__profile-wrapper" ref={profileRef}>
                 <div
                   className="navbar__profile"
                   onClick={() => {
+                    setIsLanguageMenuOpen(false);
                     setIsOpen(false);
                     setShowProfileMenu(!showProfileMenu);
                   }}
                 >
-                  {user?.profile_url ? (
+                  {loggedinUser?.profile_url ? (
                     <img
-                      src={user.profile_url}
-                      alt={user.name}
+                      src={loggedinUser.profile_url}
+                      alt={loggedinUser.name}
                       className="navbar__profile-image"
                     />
                   ) : (
-                    user?.name?.charAt(0)?.toUpperCase() || "U"
+                    loggedinUser?.name?.charAt(0)?.toUpperCase() || "U"
                   )}
                 </div>
 
@@ -220,14 +263,14 @@ function Navbar() {
                         setShowProfileMenu(false);
                       }}
                     >
-                      👤 Profile
+                      👤 {t("navigation.profile.profile")}
                     </button>
 
                     <button
                       className="navbar__profile-item"
-                      onClick={() => setShowPayment(true)}
+                      onClick={() => showPaymentModal()}
                     >
-                      💎 Buy Credits
+                      💎 {t("navigation.profile.buycredits")}
                     </button>
 
                     <button
@@ -237,7 +280,7 @@ function Navbar() {
                         setShowConfirm(true);
                       }}
                     >
-                      🚪 Logout
+                      🚪 {t("navigation.profile.logout")}
                     </button>
                   </div>
                 )}
@@ -248,7 +291,9 @@ function Navbar() {
       </header>
       <ConfirmPopup
         isOpen={showConfirm}
-        message="Are you sure you want to logout?"
+        message={t("navigation.logout.title")}
+        confirmText={t("navigation.logout.confirm")}
+        cancelText={t("navigation.logout.cancel")}
         onConfirm={handleLogout}
         onCancel={() => setShowConfirm(false)}
       />

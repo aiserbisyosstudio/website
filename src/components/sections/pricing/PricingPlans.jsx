@@ -1,7 +1,11 @@
 import "./PricingPlans.css";
 import { IoCheckmarkOutline } from "react-icons/io5";
+import { useSelector } from "react-redux";
 
 export default function PricingPlans({ t }) {
+  const userPlan = useSelector((state) => state.user.userPlan);
+  console.log("User plan: ", userPlan);
+
   const plans = [
     {
       name: t("home.plan.cards.one.name"),
@@ -11,6 +15,7 @@ export default function PricingPlans({ t }) {
       features: t("home.plan.cards.one.features", { returnObjects: true }),
       button: t("home.plan.cards.one.button"),
       popular: false,
+      code: "free",
     },
     {
       name: t("home.plan.cards.two.name"),
@@ -41,6 +46,13 @@ export default function PricingPlans({ t }) {
     },
   ];
 
+  const checkUserPlan = (btnName) => {
+    if (btnName === "Start Free Trial" && userPlan.planName === "free") {
+      return true;
+    }
+    return false;
+  };
+
   return (
     <section className="pricing-section">
       <span className="section-tag">{t("home.plan.title")}</span>
@@ -51,9 +63,19 @@ export default function PricingPlans({ t }) {
         {plans.map((plan, index) => (
           <div
             key={index}
-            className={`pricing-card ${plan.popular ? "popular-card" : ""}`}
+            className={`pricing-card
+          ${plan.popular ? "popular-card" : ""}
+          ${plan.code === userPlan.planName ? "active-plan-card" : ""}`}
           >
-            {plan.popular && <div className="popular-badge">{t("home.plan.popular")}</div>}
+            {plan.popular && (
+              <div className="popular-badge">{t("home.plan.popular")}</div>
+            )}
+
+            {plan.code === userPlan.planName && (
+              <div className="current-plan-badge">
+                {t("home.plan.currentPlan")}
+              </div>
+            )}
 
             <h3>{plan.name}</h3>
 
@@ -74,6 +96,7 @@ export default function PricingPlans({ t }) {
             </ul>
 
             <button
+              disabled={checkUserPlan(plan.button)}
               className={`plan-button ${plan.popular ? "popular-button" : ""}`}
             >
               {plan.button}
