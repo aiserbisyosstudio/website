@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 export default function PricingPlans({ t }) {
   const userPlan = useSelector((state) => state.user.userPlan);
-  console.log("User plan: ", userPlan);
+  const planName = userPlan ? userPlan.planName : "";
 
   const plans = [
     {
@@ -47,7 +47,7 @@ export default function PricingPlans({ t }) {
   ];
 
   const checkUserPlan = (btnName) => {
-    if (btnName === "Start Free Trial" && userPlan.planName === "free") {
+    if (btnName === "Start Free Trial" && planName === "free") {
       return true;
     }
     return false;
@@ -65,13 +65,13 @@ export default function PricingPlans({ t }) {
             key={index}
             className={`pricing-card
           ${plan.popular ? "popular-card" : ""}
-          ${plan.code === userPlan.planName ? "active-plan-card" : ""}`}
+          ${plan.code === planName ? "active-plan-card" : ""}`}
           >
             {plan.popular && (
               <div className="popular-badge">{t("home.plan.popular")}</div>
             )}
 
-            {plan.code === userPlan.planName && (
+            {plan.code === planName && (
               <div className="current-plan-badge">
                 {t("home.plan.currentPlan")}
               </div>
