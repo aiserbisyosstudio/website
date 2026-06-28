@@ -62,7 +62,6 @@ function PaymentModal({ isOpen, user, onClose }) {
       onSuccess: (data) => {
         onClose();
         toast.success("Payment successful");
-        console.log("Payment verified", data);
       },
 
       onFailure: (error) => {

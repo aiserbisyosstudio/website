@@ -12,7 +12,6 @@ import { setUserPlan, updateUser } from "../../../redux/slices/userSlice";
 
 function PremiumCard() {
   const user = useSelector((state) => state.user.profile);
-  console.log("User: ", user);
   const { t } = useTranslation();
   const [showPopup, setShowPopup] = useState(false);
   const [showCard, setShowCard] = useState(true);
