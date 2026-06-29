@@ -2,6 +2,7 @@ import "./WebsiteLayout.css";
 import { Outlet } from "react-router-dom";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import MoveToTop from "../../components/common/movetotop/MoveToTop";
 
 const WebsiteLayout = () => {
   return (
@@ -11,6 +12,7 @@ const WebsiteLayout = () => {
         <Outlet />
       </main>
       <Footer />
+      <MoveToTop />
     </div>
   );
 };

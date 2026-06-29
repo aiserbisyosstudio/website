@@ -135,11 +135,7 @@
           "subtitle": "Try before you subscribe",
           "price": "₹0",
           "period": "/7 days",
-          "features": [
-            "300 Credits",
-            "Image Creation",
-            "Standard Quality"
-          ],
+          "features": ["300 Credits", "Image Creation", "Standard Quality"],
           "button": "Start Free Trial"
         },
         "two": {
@@ -192,7 +188,7 @@
         "subtitle": "Start your free trial or choose a plan to unlock AI image generation, video creation, editing, collage, and analysis.",
         "button": "Start Free Trial"
       },
-      "trial": {
+      "free": {
         "title": "Free Trial Active",
         "subtitle": "You have {{credits}} credits remaining. Enjoy Premium features during your trial. Upgrade before your trial ends to keep uninterrupted access.",
         "button": "Upgrade Now"
@@ -411,5 +407,170 @@
     },
     "login": "Already have an account?",
     "link": "Login"
+  },
+  "privacy": {
+    "sections": [
+      {
+        "title": "1. Information We Collect",
+        "type": "list",
+        "items": [
+          "Account information such as your name, email address, or phone number.",
+          "Images, videos, and media files you upload.",
+          "Text prompts used for AI generation and editing.",
+          "Device information, browser type, IP address, and usage statistics."
+        ]
+      },
+      {
+        "title": "2. How We Use Your Information",
+        "type": "list",
+        "items": [
+          "Create AI-generated images and videos.",
+          "Edit, enhance, restore, or transform uploaded media.",
+          "Generate photo collages.",
+          "Analyze images and videos.",
+          "Improve our services and AI models.",
+          "Provide customer support."
+        ]
+      },
+      {
+        "title": "3. AI Processing",
+        "type": "list",
+        "items": [
+          "Image generation",
+          "Video generation",
+          "Background removal",
+          "Object removal",
+          "Style transfer",
+          "Image enhancement",
+          "Image and video analysis"
+        ]
+      },
+      {
+        "title": "4. Uploaded Images & Videos",
+        "type": "paragraph",
+        "text": "Uploaded files are processed only to complete your requested task. Temporary copies may be stored during processing and automatically removed according to our retention policy."
+      },
+      {
+        "title": "5. Generated Content",
+        "type": "paragraph",
+        "text": "You retain ownership of content you upload. You are responsible for ensuring you have the necessary rights to use uploaded media and that generated content complies with applicable laws."
+      },
+      {
+        "title": "6. Data Security",
+        "type": "list",
+        "items": [
+          "Encrypted communication",
+          "Secure cloud infrastructure",
+          "Access controls",
+          "Regular security monitoring"
+        ]
+      },
+      {
+        "title": "7. Data Retention",
+        "type": "paragraph",
+        "text": "Data is retained only as long as necessary to provide services, improve performance, comply with legal obligations, and maintain account functionality."
+      },
+      {
+        "title": "8. Payment Information",
+        "type": "paragraph",
+        "text": "Payments are securely processed through our trusted payment partners (such as Razorpay/Stripe). We do not store your debit card, credit card, UPI PIN, CVV, net banking credentials, or other sensitive payment information on our servers."
+      },
+      {
+        "title": "9. Sharing Information",
+        "type": "paragraph",
+        "text": "We do not sell your personal information. Information may be shared with trusted cloud, payment, analytics, and AI service providers when required to operate our services."
+      },
+      {
+        "title": "10. Your Rights",
+        "type": "list",
+        "items": [
+          "Access your data",
+          "Correct inaccurate information",
+          "Delete your account",
+          "Request data portability",
+          "Withdraw consent where applicable"
+        ]
+      },
+      {
+        "title": "11. Contact Us",
+        "type": "paragraph",
+        "text": "If you have any questions regarding this Privacy Policy, please contact our support team through the application or website."
+      }
+    ]
+  },
+  "terms": {
+    "sections": [
+      {
+        "title": "1. Eligibility",
+        "content": "You must be at least 18 years old or have parental consent to use our services."
+      },
+      {
+        "title": "2. User Account",
+        "content": "You are responsible for maintaining your account credentials and all activities under your account."
+      },
+      {
+        "title": "3. Services",
+        "content": "We provide AI image generation, video generation, editing, collage creation, and analysis services."
+      },
+      {
+        "title": "4. Credits & Subscription",
+        "content": "Credits are non-transferable, may expire according to your plan, and are deducted when processing begins."
+      },
+      {
+        "title": "5. Payments",
+        "content": "Payments are processed through secure payment providers. Applicable taxes including GST may apply."
+      },
+      {
+        "title": "6. Refund Policy",
+        "type": "refund",
+        "intro": "Digital purchases are generally non-refundable because services are delivered immediately.",
+        "eligibleTitle": "Refunds may be considered in the following cases:",
+        "eligible": [
+          "Payment deducted but credits not received.",
+          "Duplicate payment.",
+          "Technical failure preventing service delivery.",
+          "Refund required under applicable Indian law."
+        ],
+        "notEligibleTitle": "No refunds for:",
+        "notEligible": [
+          "Consumed credits.",
+          "Incorrect prompts.",
+          "Change of mind.",
+          "Dissatisfaction with AI results."
+        ]
+      },
+      {
+        "title": "7. User Content",
+        "content": "You retain ownership of uploaded content while granting us permission to process it for providing the requested service."
+      },
+      {
+        "title": "8. AI Generated Content",
+        "content": "AI-generated outputs may contain inaccuracies and should be reviewed before professional or commercial use."
+      },
+      {
+        "title": "9. Prohibited Activities",
+        "content": "Users must not upload illegal, infringing, malicious, or abusive content."
+      },
+      {
+        "title": "10. Intellectual Property",
+        "content": "Our software, branding, and platform remain our intellectual property."
+      },
+      {
+        "title": "11. Privacy",
+        "content": "Your use of our platform is also governed by our Privacy Policy."
+      },
+      {
+        "title": "12. Limitation of Liability",
+        "content": "Our liability is limited to the maximum extent permitted by Indian law."
+      },
+      {
+        "title": "13. Governing Law",
+        "content": "These Terms are governed by the laws of India."
+      },
+      {
+        "title": "14. Contact Us",
+        "content": "For questions regarding these Terms, please contact our support team."
+      }
+    ]
   }
 }

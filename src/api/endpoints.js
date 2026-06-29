@@ -7,7 +7,9 @@ const ENDPOINTS = {
   USER: {
     REGISTER: "/user/register",
     UPDATE_LANGUAGE: "/user/update-language",
-    UPDATE_PLAN: "/user/update-plan"
+    UPDATE_PLAN: "/user/update-plan",
+    GET_PROFILE: "/user/get-profile",
+    UPDATE_PROFILE_PHOTO: "/user/upload-profile-photo"
   },
 
   ORDER: {

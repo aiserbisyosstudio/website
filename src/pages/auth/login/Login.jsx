@@ -12,7 +12,7 @@ import { IoArrowBack } from "react-icons/io5";
 import { login } from "@/services/authService";
 import { toast } from "react-toastify";
 import { login as reduxLogin } from "../../../redux/slices/authSlice";
-import { setUser } from "../../../redux/slices/userSlice";
+import { setUser, setUserPlan } from "../../../redux/slices/userSlice";
 
 const Login = () => {
   const { t } = useTranslation();
@@ -48,6 +48,7 @@ const Login = () => {
       if (response.success) {
         dispatch(reduxLogin());
         dispatch(setUser(response.user));
+        dispatch(setUserPlan(response.userPlan));
         clearLoginForm();
         navigate(screen);
         toast.success("Login successful!");

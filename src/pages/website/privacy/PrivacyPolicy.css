@@ -94,6 +94,8 @@
   font-size: 1rem;
   line-height: 1.8;
   color: #555;
+  margin-bottom: 1rem;
+  text-align: justify;
 }
 
 .accordion-content ul {

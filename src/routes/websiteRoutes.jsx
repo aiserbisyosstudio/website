@@ -1,9 +1,11 @@
 import WebsiteLayout from "@/layouts/website/WebsiteLayout";
 import Home from "@/pages/website/home/Home";
 import Contact from "@/pages/website/contact/Contact";
-import TermsConditions from "../pages/website/terms/TermsConditions";
-import PrivacyPolicy from "../pages/website/privacy/PrivacyPolicy";
-import Blogs from "../pages/website/blog/Blogs";
+import TermsConditions from "@/pages/website/terms/TermsConditions";
+import PrivacyPolicy from "@/pages/website/privacy/PrivacyPolicy";
+import Blogs from "@/pages/website/blog/Blogs";
+import Profile from "@/pages/website/profile/Profile";
+import ProtectedRoute from "../utils/ProtectedRoute";
 
 const websiteRoutes = [
   {
@@ -29,6 +31,15 @@ const websiteRoutes = [
       {
         path: "blogs",
         element: <Blogs />,
+      },
+      {
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: "profile",
+            element: <Profile />,
+          },
+        ],
       },
     ],
   },

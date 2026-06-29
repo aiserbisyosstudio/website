@@ -35,7 +35,8 @@ function Navbar() {
     "/auth/register",
     "/terms-conditions",
     "/privary-policy",
-    "/blog"
+    "/blog",
+    "/profile"
   ];
   const isAuthRoute = hideNavbarRoutes.includes(location.pathname);
 
@@ -143,7 +144,7 @@ function Navbar() {
   const showPaymentModal = () => {
     if( userPlan && userPlan.status == 'active' ) {
       setShowProfileMenu(false);
-      toast.error("There is already an active plan");
+      toast.info("There is already an active plan");
     } else {
       setShowPayment(true);
     }

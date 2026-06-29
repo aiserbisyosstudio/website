@@ -1,5 +1,6 @@
 import "./Input.css";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import Button from "@/components/common/button/Button";
 
 const Input = ({
   label,
@@ -11,6 +12,10 @@ const Input = ({
   textarea = false,
   rows = 5,
   className = "",
+  sideButton = false,
+  sideButtonText = "",
+  onSideButtonClick,
+  sideButtonDisabled = false,
   ...props
 }) => {
   return (
@@ -22,22 +27,35 @@ const Input = ({
           {...props}
         />
       ) : (
-        <div className="input-wrapper">
-          <input
-            type={type}
-            className={`${className} ${error ? "error-input shake" : ""}`}
-            {...props}
-          />
-          <label htmlFor={props.id}>{label}</label>
-          {rightIcon && (
-            <span
-              className="toggle-password"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? <FaEyeSlash /> : <FaEye />}
-            </span>
-          )}
-        </div>
+        <>
+          <div className="input-container">
+            <div className="input-wrapper">
+              <input
+                type={type}
+                className={`${className} ${error ? "error-input shake" : ""}`}
+                {...props}
+              />
+              <label htmlFor={props.id}>{label}</label>
+              {rightIcon && (
+                <span
+                  className="toggle-password"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </span>
+              )}
+            </div>
+            {sideButton && (
+              <Button
+                className="input-side-button"
+                onClick={onSideButtonClick}
+                disabled={sideButtonDisabled}
+              >
+                {sideButtonText}
+              </Button>
+            )}
+          </div>
+        </>
       )}
       {error && <small className="error-text">{error}</small>}
     </div>
