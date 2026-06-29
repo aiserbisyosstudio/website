@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./ProfileImagePopup.css";
-import Button from "@/components/common/Button/Button";
+import Button from "@/components/common/button/Button";
 import { updateProfilePhoto } from "@/services/userService";
 
 export default function ProfileImagePopup({
