@@ -29,7 +29,7 @@ function AccordionItem({ title, children, isOpen, onClick }) {
 }
 
 export default function PrivacyPolicy() {
-  usePageTitle("Privacy Policy | AISerbisyosStudios");
+  usePageTitle(t("privacy.pageTitle"));
   const { t } = useTranslation();
   const sections = t("privacy.sections", { returnObjects: true });
   const [openIndex, setOpenIndex] = useState(0);

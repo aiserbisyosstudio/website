@@ -18,3 +18,21 @@ export const logout = async (payload) => {
 
   return response.data;
 };
+
+export const updatePassword = async (payload) => {
+  const response = await api.post(
+    ENDPOINTS.AUTH.UPDATE_PASSWORD,
+    payload
+  );
+
+  return response.data;
+};
+
+export const sendEmailOtp = async (payload) => {
+  const response = await api.post(
+    ENDPOINTS.AUTH.SEND_EMAIL_OTP,
+    payload
+  );
+
+  return response.data;
+};

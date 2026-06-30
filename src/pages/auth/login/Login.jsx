@@ -12,11 +12,11 @@ import { IoArrowBack } from "react-icons/io5";
 import { login } from "@/services/authService";
 import { toast } from "react-toastify";
 import { login as reduxLogin } from "../../../redux/slices/authSlice";
-import { setUser, setUserPlan } from "../../../redux/slices/userSlice";
+import { setUser, setUserPlan, setUserUsage } from "../../../redux/slices/userSlice";
 
 const Login = () => {
   const { t } = useTranslation();
-  usePageTitle("Login | AISerbisyosStudios");
+  usePageTitle(t("login.pageTitle"));
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -48,7 +48,8 @@ const Login = () => {
       if (response.success) {
         dispatch(reduxLogin());
         dispatch(setUser(response.user));
-        dispatch(setUserPlan(response.userPlan));
+        dispatch(setUserPlan(response.plan));
+        dispatch(setUserUsage(response.usage));
         clearLoginForm();
         navigate(screen);
         toast.success("Login successful!");
@@ -57,7 +58,7 @@ const Login = () => {
       }
     } catch (error) {
       setLoading(false);
-      toast.error(error.response?.data?.message || "Failed to login!");
+      toast.error("Failed to login");
     }
   };
 
@@ -98,7 +99,7 @@ const Login = () => {
               id="password"
               name="password"
               setShowPassword={setShowPassword}
-              showPassword={setShowPassword}
+              showPassword={showPassword}
               rightIcon={true}
               type={showPassword ? "text" : "password"}
               label={t("login.form.label.password")}

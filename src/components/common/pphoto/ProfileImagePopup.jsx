@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import "./ProfileImagePopup.css";
 import Button from "@/components/common/button/Button";
 import { updateProfilePhoto } from "@/services/userService";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { updateUser } from "../../../redux/slices/userSlice";
 
 export default function ProfileImagePopup({
   imageFile,
@@ -10,6 +13,7 @@ export default function ProfileImagePopup({
   changeImage,
   userId
 }) {
+  const dispatch = useDispatch();
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState("");
   const [loading, setLoading] = useState(false);
@@ -34,12 +38,22 @@ export default function ProfileImagePopup({
       setLoading(true);
       const formData = new FormData();
       formData.append("userId", userId);
-      formData.append("avatar", {
-        uri: imageFile.uri,
-        name: userId + ".jpg",
-        type: "image/jpeg",
-      });
-    } catch (error) {}
+      formData.append("avatar", imageFile);
+      const response = await updateProfilePhoto(formData);
+      setLoading(false);
+      if( response.success ) {
+        toast.success("Profile photo updated successfully");
+        dispatch(updateUser({
+          avatar: response.avatar
+        }));
+        setShowModal(false);
+      } else {
+        toast.error("Failed to update profile photo");
+      }
+    } catch (error) {
+      setLoading(false);
+      toast.error("Failed to update profile photo");
+    }
   };
 
   return (

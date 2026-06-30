@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   profile: null,
-  userPlan: null,
+  plan: null,
+  usage: null,
 };
 
 const userSlice = createSlice({
@@ -14,11 +15,19 @@ const userSlice = createSlice({
       state.profile = action.payload;
     },
     setUserPlan: (state, action) => {
-      state.userPlan = action.payload;
+      state.plan = action.payload;
     },
     updateUserPlan: (state, action) => {
-      if (state.userPlan) {
-        Object.assign(state.userPlan, action.payload);
+      if (state.plan) {
+        Object.assign(state.plan, action.payload);
+      }
+    },
+    setUserUsage: (state, action) => {
+      state.usage = action.payload;
+    },
+    updateUserUsage: (state, action) => {
+      if (state.usage) {
+        Object.assign(state.usage, action.payload);
       }
     },
     updateUser: (state, action) => {
@@ -30,6 +39,7 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUser, updateUser, clearUser, setUserPlan, updateUserPlan } = userSlice.actions;
+export const { setUser, updateUser, clearUser, setUserPlan, updateUserPlan, setUserUsage, updateUserUsage } =
+  userSlice.actions;
 
 export default userSlice.reducer;

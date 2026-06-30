@@ -244,9 +244,9 @@ function Navbar() {
                     setShowProfileMenu(!showProfileMenu);
                   }}
                 >
-                  {loggedinUser?.profile_url ? (
+                  {loggedinUser?.avatar ? (
                     <img
-                      src={loggedinUser.profile_url}
+                      src={loggedinUser.avatar}
                       alt={loggedinUser.name}
                       className="navbar__profile-image"
                     />

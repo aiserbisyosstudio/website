@@ -14,7 +14,7 @@ import { toast } from "react-toastify";
 
 const Register = () => {
   const { t } = useTranslation();
-  usePageTitle("Register | AISerbisyosStudios");
+  usePageTitle(t("register.pageTitle"));
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();

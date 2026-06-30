@@ -2,6 +2,8 @@ const ENDPOINTS = {
   AUTH: {
     LOGIN: "/auth/login",
     LOGOUT: "/auth/logout",
+    UPDATE_PASSWORD: "/auth/update-password",
+    SEND_EMAIL_OTP: "/auth/send-email-otp"
   },
 
   USER: {
@@ -9,7 +11,8 @@ const ENDPOINTS = {
     UPDATE_LANGUAGE: "/user/update-language",
     UPDATE_PLAN: "/user/update-plan",
     GET_PROFILE: "/user/get-profile",
-    UPDATE_PROFILE_PHOTO: "/user/upload-profile-photo"
+    UPDATE_PHOTO: "/user/upload-photo",
+    REMOVE_PHOTO: "/user/remove-photo"
   },
 
   ORDER: {

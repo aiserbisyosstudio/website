@@ -41,7 +41,7 @@ function AccordionItem({ title, children, isOpen, onClick }) {
 }
 
 export default function TermsConditions() {
-  usePageTitle("Terms & Conditions | AISerbisyosStudios");
+  usePageTitle(t("terms.pageTitle"));
   const { t } = useTranslation();
   const sections = t("terms.sections", { returnObjects: true });
   const [openIndex, setOpenIndex] = useState(0);

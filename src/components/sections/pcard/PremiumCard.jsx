@@ -39,7 +39,6 @@ function PremiumCard() {
 
       const response = await updatePlan({userId: user._id, code: 'free'});
       setLoading(false);
-      console.log(response);
       if( response.success ) {
         dispatch(setUserPlan(response.userPlan));
         dispatch(updateUser({
@@ -51,7 +50,6 @@ function PremiumCard() {
         toast.error("Failed to activat plan");
       }
     } catch(error) {
-      console.log(error);
       setLoading(false);
       toast.error(error.response?.data?.message || "Failed to activat plan");
     }

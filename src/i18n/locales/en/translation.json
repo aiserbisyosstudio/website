@@ -350,6 +350,7 @@
     }
   },
   "login": {
+    "pageTitle": "Login | AISerbisyosStudio",
     "return": "Return to Home",
     "title": "Welcome Back",
     "heading": "Login to continue",
@@ -376,6 +377,7 @@
     "link": "Register"
   },
   "register": {
+    "pageTitle": "Register | AISerbisyosStudios",
     "return": "Return to Home",
     "title": "Create Account",
     "heading": "Register to get started",
@@ -409,6 +411,7 @@
     "link": "Login"
   },
   "privacy": {
+    "pageTitle": "Privacy Policy | AISerbisyosStudios",
     "sections": [
       {
         "title": "1. Information We Collect",
@@ -499,6 +502,7 @@
     ]
   },
   "terms": {
+    "pageTitle": "Terms & Conditions | AISerbisyosStudios",
     "sections": [
       {
         "title": "1. Eligibility",
@@ -572,5 +576,84 @@
         "content": "For questions regarding these Terms, please contact our support team."
       }
     ]
+  },
+  "profile": {
+    "pageTitle": "Profile | AISerbisyosStudios",
+    "profile": {
+      "fields": {
+        "label": {
+          "current": "Current Password",
+          "new": "New Password",
+          "confirm": "Confirm Password"
+        },
+        "placeholder": {
+          "current": "Please enter your current password",
+          "new": "Please enter new password",
+          "confirm": "Please enter new password again"
+        },
+        "errors": {
+          "current": "Please enter your current password",
+          "new": "Please enter new password",
+          "confirm": "Please enter new password again",
+          "nomatch": "New password and confirm password not matching"
+        }
+      },
+      "buttons": {
+        "edit": "Edit",
+        "save": "Save",
+        "reset": "Reset",
+        "cancel": "Cancel",
+        "verifymobile": "Verify Mobile",
+        "verifyemail": "Verify Email",
+        "forgotpassword": "Forgot Password"
+      }
+    },
+    "plan": {
+      "plans": {
+        "free": "✨ Free Trial Plan",
+        "silver": "🥈 Silver Creator",
+        "gold": "👑 Gold Creator",
+        "platinum": "💎 Platinum Creator"
+      },
+      "buttons": {
+        "upgrade": "Upgrade",
+        "start": "Start Free Trial"
+      },
+      "details": {
+        "new": {
+          "title": "Welcome! Ready to Create? ✨",
+          "heading": "Start your free trial or choose a plan to unlock AI image generation, video creation, editing, collage, and analysis."
+        },
+        "plan": {
+          "title": "✨ Free Trial Plan",
+          "status": {
+            "active": "Active",
+            "expired": "Expired"
+          },
+          "labels": {
+            "plan": {
+              "expires": "Expires",
+              "purchased": "Purchased",
+              "used": "Used",
+              "remaining": "Remaining"
+            },
+            "category": {
+              "images": "Images",
+              "videos": "Videos"
+            },
+            "stats": {
+              "created": "Created",
+              "edited": "Edited",
+              "collages": "Collages",
+              "analyzed": "Analyzed"
+            }
+          }
+        }
+      }
+    },
+    "apimessages": {
+      "success": "Password updated successfully",
+      "error": "Failed to update password"
+    }
   }
 }

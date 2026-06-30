@@ -27,7 +27,7 @@ export const getProfile = async (payload) => {
 
 export const updateProfilePhoto = async (payload) => {
   const response = await api.post(
-    ENDPOINTS.USER.UPDATE_PROFILE_PHOTO,
+    ENDPOINTS.USER.UPDATE_PHOTO,
     payload,
     {
       headers: {
@@ -35,6 +35,12 @@ export const updateProfilePhoto = async (payload) => {
       },
     },
   );
+
+  return response.data;
+};
+
+export const removeProfilePhoto = async (payload) => {
+  const response = await api.post(ENDPOINTS.USER.REMOVE_PHOTO, payload);
 
   return response.data;
 };

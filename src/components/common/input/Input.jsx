@@ -15,6 +15,7 @@ const Input = ({
   sideButton = false,
   sideButtonText = "",
   onSideButtonClick,
+  sideButtonLoading = false,
   sideButtonDisabled = false,
   ...props
 }) => {
@@ -50,6 +51,7 @@ const Input = ({
                 className="input-side-button"
                 onClick={onSideButtonClick}
                 disabled={sideButtonDisabled}
+                loading={sideButtonLoading}
               >
                 {sideButtonText}
               </Button>
