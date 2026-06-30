@@ -49,12 +49,19 @@
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
   cursor: pointer;
   transition: var(--transition);
+  position: relative;
 }
 
 .feature-cards:hover {
   background: white;
   border: 1px solid var(--gray-100);
   scale: 1.05;
+}
+
+.feature-cards:hover .info-icon {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
 .feature-icon {
@@ -171,7 +178,10 @@
   cursor: pointer;
   color: var(--text-secondary);
 
-  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
 }
 
 .tooltip {
