@@ -51,7 +51,7 @@ const HeroSection = ({ t }) => {
         </div>
 
         <div className="hero-stats">
-          <div className="stat-item">
+          <div className="hero-stat-item">
             <div className="stat-items-header">
               <FaImage className="stat-icon image-icon" />
               <h3>{stats?.imageCount}</h3>
@@ -59,7 +59,7 @@ const HeroSection = ({ t }) => {
             <p>{t("home.hero.stats.imagesGenerated")}</p>
           </div>
 
-          <div className="stat-item">
+          <div className="hero-stat-item">
             <div className="stat-items-header">
               <FaVideo className="stat-icon video-icon" />
               <h3>{stats?.videoCount}</h3>
@@ -67,7 +67,7 @@ const HeroSection = ({ t }) => {
             <p>{t("home.hero.stats.videosGenerated")}</p>
           </div>
 
-          <div className="stat-item">
+          <div className="hero-stat-item">
             <div className="stat-items-header">
               <FaUsers className="stat-icon users-icon" />
               <h3>{stats?.usersCount}</h3>
@@ -75,7 +75,7 @@ const HeroSection = ({ t }) => {
             <p>{t("home.hero.stats.activeCreators")}</p>
           </div>
 
-          <div className="stat-item">
+          <div className="hero-stat-item">
             <div className="stat-items-header">
               <FaRocket className="stat-icon uptime-icon" />
               <h3>99.9%</h3>

@@ -33,9 +33,7 @@ export default function UserPlan({ user, plan, usage, t }) {
                 <h3 style={{ marginBottom: "1rem" }}>
                   {t("profile.plan.details.new.title")}
                 </h3>
-                <span>
-                  {t("profile.plan.details.new.heading")}
-                </span>
+                <span>{t("profile.plan.details.new.heading")}</span>
               </>
             ) : (
               <>
@@ -52,26 +50,24 @@ export default function UserPlan({ user, plan, usage, t }) {
               </>
             )}
           </div>
-          {currentPlan === "new" ? (
-            <Button style={{ width: "20rem" }} className="upgrade-btn">
-              {t("profile.plan.buttons.start")}
-            </Button>
-          ) : (
-            <Button style={{ width: "10rem" }} className="upgrade-btn">
-              {t("profile.plan.buttons.upgrade")}
-            </Button>
-          )}
+          <Button style={{ width: "30rem" }} className="upgrade-btn">
+            {t("profile.plan.buttons.upgrade")}
+          </Button>
         </div>
         {currentPlan !== "new" && (
           <>
             <div className="plan-info">
               <div className="info-item">
-                <span>{t("profile.plan.details.plan.labels.plan.expires")}</span>
+                <span>
+                  {t("profile.plan.details.plan.labels.plan.expires")}
+                </span>
                 <strong>{formatDate(plan.expiresAt)}</strong>
               </div>
 
               <div className="info-item">
-                <span>{t("profile.plan.details.plan.labels.plan.purchased")}</span>
+                <span>
+                  {t("profile.plan.details.plan.labels.plan.purchased")}
+                </span>
                 <strong>
                   {formatNumber(plan.purchasedCredits - plan.remainingCredits)}{" "}
                   Credits
@@ -84,7 +80,9 @@ export default function UserPlan({ user, plan, usage, t }) {
               </div>
 
               <div className="info-item">
-                <span>{t("profile.plan.details.plan.labels.plan.remaining")}</span>
+                <span>
+                  {t("profile.plan.details.plan.labels.plan.remaining")}
+                </span>
                 <strong>{formatNumber(plan.remainingCredits)} Credits</strong>
               </div>
             </div>
@@ -93,7 +91,9 @@ export default function UserPlan({ user, plan, usage, t }) {
               <div className="stats-card">
                 <div className="stats-header">
                   <Image size={22} />
-                  <h3>{t("profile.plan.details.plan.labels.category.images")}</h3>
+                  <h3>
+                    {t("profile.plan.details.plan.labels.category.images")}
+                  </h3>
                 </div>
 
                 <div className="stats-grid">
@@ -135,7 +135,9 @@ export default function UserPlan({ user, plan, usage, t }) {
               <div className="stats-card">
                 <div className="stats-header">
                   <Video size={22} />
-                  <h3>{t("profile.plan.details.plan.labels.category.videos")}</h3>
+                  <h3>
+                    {t("profile.plan.details.plan.labels.category.videos")}
+                  </h3>
                 </div>
 
                 <div className="stats-grid">

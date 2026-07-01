@@ -333,14 +333,14 @@ html[lang="hi"] .hero-title span {
   color: #f59e0b;
 }
 
-.stat-item h3 {
+.hero-stat-item h3 {
   margin: 0;
   color: var(--color-primary);
   font-size: 1.8rem;
   font-family: var(--font-primary);
 }
 
-.stat-item p {
+.hero-stat-item p {
   margin-top: 0.35rem;
   color: var(--color-primary);
   font-size: 0.9rem;
