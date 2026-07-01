@@ -10,6 +10,7 @@
   cursor: pointer;
   transition: 0.2s ease;
   font-family: var(--font-primary);
+  font-weight: bold;
 }
 
 .btn:hover {

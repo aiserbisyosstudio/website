@@ -605,7 +605,18 @@
         "cancel": "रद्द करें",
         "verifymobile": "मोबाइल प्रमाणित करें",
         "verifyemail": "ईमेल प्रमाणित करें",
+        "mobileverified": "मोबाइल सत्यापित",
+        "emailverified": "ईमेल सत्यापित",
         "forgotpassword": "पासवर्ड भूल गए?"
+      },
+      "emailverify": {
+        "title": "ईमेल प्रमाणित करें",
+        "subtitle": "अपने ईमेल पर भेजा गया 6 अंकों का ओटीपी दर्ज करें",
+        "buttons": {
+          "verify": "प्रमाणित करें",
+          "resend": "दोबारा भेजें",
+          "cancel": "रद्द करें"
+        }
       }
     },
     "plan": {

@@ -10,7 +10,11 @@ import Button from "@/components/common/button/Button";
 import ProfileImagePopup from "../../../components/common/pphoto/ProfileImagePopup";
 import { toast } from "react-toastify";
 import { updateUser } from "../../../redux/slices/userSlice";
-import { updatePassword, sendEmailOtp } from "@/services/authService";
+import {
+  updatePassword,
+  sendEmailOtp,
+  verifyEmailOtp as verifyEmailOtpApi,
+} from "@/services/authService";
 import { generateOtp } from "../../../utils/data/otp.util";
 import VerifyEmailOtp from "../../common/otp/VerifyEmailOtp";
 
@@ -19,6 +23,7 @@ export default function UserProfile({ user, t }) {
   const [profile, setProfile] = useState(null);
   const [plan, setPlan] = useState({});
   const [usage, setUsage] = useState({});
+  const [eloading, setEloading] = useState(false);
   const [ploading, setPloading] = useState(false);
   const [loading, setLoading] = useState(false);
   const [buttonLoading, setButtonLoading] = useState(false);
@@ -332,10 +337,24 @@ export default function UserProfile({ user, t }) {
     }
   };
 
-  const verifyEmailOtp = (otp) => {
+  const verifyEmailOtp = async (otp) => {
     setShowOtp(false);
-    console.log()
-  }
+    try {
+      setLoading(true);
+      const response = await verifyEmailOtpApi({ userId: user._id });
+      setLoading(false);
+      if (response.success) {
+        dispatch(updateUser(response.user));
+        toast.error("Failed to verify email otp");
+        toast.success("Email otp verified successfully");
+      } else {
+        toast.error("Failed to verify email otp");
+      }
+    } catch (error) {
+      setLoading(false);
+      toast.error("Failed to verify email otp");
+    }
+  };
 
   return (
     <>
@@ -414,7 +433,7 @@ export default function UserProfile({ user, t }) {
             label={t("register.form.label.name")}
             placeholder={t("register.form.placeholder.name")}
             value={profile ? profile.name : ""}
-            disabled={loading || !enableEditing}
+            disabled={!enableEditing}
             onChange={handleChange}
             onBlur={handleBlur}
             error={showError("name") ? errors.name : ""}
@@ -426,15 +445,19 @@ export default function UserProfile({ user, t }) {
             label={t("register.form.label.email")}
             placeholder={t("register.form.placeholder.email")}
             value={profile ? profile.email : ""}
-            disabled={loading || !enableEditing}
+            disabled={!enableEditing}
             onChange={handleChange}
             onBlur={handleBlur}
             error={showError("email") ? errors.email : ""}
-            sideButton={!user?.isEmailVerified}
-            sideButtonText={t("profile.profile.buttons.verifyemail")}
+            sideButton={true}
+            sideButtonText={
+              user?.isEmailVerified
+                ? t("profile.profile.buttons.emailverified")
+                : t("profile.profile.buttons.verifyemail")
+            }
             onSideButtonClick={sendEmailOtpClick}
             sideButtonLoading={buttonLoading}
-            sideButtonDisabled={enableEditing}
+            sideButtonDisabled={enableEditing || user?.isEmailVerified}
           />
 
           <Input
@@ -443,15 +466,17 @@ export default function UserProfile({ user, t }) {
             label={t("register.form.label.mobile")}
             placeholder={t("register.form.placeholder.mobile")}
             value={profile ? profile.mobile : ""}
-            disabled={loading || !enableEditing}
+            disabled={!enableEditing}
             onChange={handleChange}
             onBlur={handleBlur}
             error={showError("mobile") ? errors.mobile : ""}
-            sideButton={!user?.isMobileVerified}
-            sideButtonText={t("profile.profile.buttons.verifymobile")}
+            sideButton={true}
+            sideButtonText={user?.isMobileVerified
+                ? t("profile.profile.buttons.mobileverified")
+                : t("profile.profile.buttons.verifymobile")}
             onSideButtonClick={sendOtps}
             sideButtonLoading={buttonLoading}
-            sideButtonDisabled={enableEditing}
+            sideButtonDisabled={enableEditing || user?.isMobileVerified}
           />
 
           <div
@@ -460,7 +485,7 @@ export default function UserProfile({ user, t }) {
           >
             {!enableEditing && (
               <Button
-                loading={loading}
+                loading={eloading}
                 onClick={() => setEnableEditing(true)}
                 style={{ width: "49%", flex: "none" }}
               >
@@ -471,22 +496,22 @@ export default function UserProfile({ user, t }) {
             {enableEditing && (
               <>
                 <Button
-                  loading={loading}
-                  disabled={loading}
+                  loading={eloading}
+                  disabled={eloading}
                   style={{ width: "32%", flex: "none" }}
                   onClick={handleSubmit(updateUserProfile)}
                 >
                   {t("profile.profile.buttons.save")}
                 </Button>
                 <Button
-                  disabled={loading}
+                  disabled={eloading}
                   style={{ width: "32%", flex: "none" }}
                   onClick={() => resetProfileForm()}
                 >
                   {t("profile.profile.buttons.reset")}
                 </Button>
                 <Button
-                  disabled={loading}
+                  disabled={eloading}
                   onClick={() => cancelEdit()}
                   style={{ width: "32%", flex: "none" }}
                 >
@@ -584,6 +609,7 @@ export default function UserProfile({ user, t }) {
         userId={user._id}
       />
       <VerifyEmailOtp
+        t={t}
         open={showOtp}
         emailOtp={emailOtp}
         email={user.email}

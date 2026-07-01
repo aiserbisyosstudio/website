@@ -3,7 +3,8 @@ const ENDPOINTS = {
     LOGIN: "/auth/login",
     LOGOUT: "/auth/logout",
     UPDATE_PASSWORD: "/auth/update-password",
-    SEND_EMAIL_OTP: "/auth/send-email-otp"
+    SEND_EMAIL_OTP: "/auth/send-email-otp",
+    VERIFY_EMAIL_OTP: "/auth/verify-email-otp"
   },
 
   USER: {

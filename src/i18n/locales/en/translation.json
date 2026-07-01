@@ -605,7 +605,18 @@
         "cancel": "Cancel",
         "verifymobile": "Verify Mobile",
         "verifyemail": "Verify Email",
+        "mobileverified": "Mobile Verified",
+        "emailverified": "Email Verified",
         "forgotpassword": "Forgot Password"
+      },
+      "emailverify": {
+        "title": "Verify Email",
+        "subtitle": "Enter the 6-digit OTP sent to",
+        "buttons": {
+          "verify": "Verify",
+          "resend": "Resend",
+          "cancel": "Cancel"
+        }
       }
     },
     "plan": {

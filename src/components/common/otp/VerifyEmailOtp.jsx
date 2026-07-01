@@ -4,6 +4,7 @@ import Button from "@/components/common/button/Button";
 import { toast } from "react-toastify";
 
 export default function VerifyEmailOtp({
+  t,
   open,
   emailOtp,
   email,
@@ -15,6 +16,7 @@ export default function VerifyEmailOtp({
   const [timer, setTimer] = useState(60);
 
   useEffect(() => {
+    setOtp(["", "", "", "", "", ""]);
     if (!open) return;
 
     setTimer(60);
@@ -96,10 +98,10 @@ export default function VerifyEmailOtp({
   return (
     <div className="otp-modal-overlay">
       <div className="otp-modal">
-        <h2>Verify Email</h2>
+        <h2>{t("profile.profile.emailverify.title")}</h2>
 
         <p>
-          Enter the 6-digit OTP sent to
+          {t("profile.profile.emailverify.subtitle")}
           <br />
           <strong>{email}</strong>
         </p>
@@ -107,6 +109,7 @@ export default function VerifyEmailOtp({
         <div className="otp-inputs" onPaste={handlePaste}>
           {otp.map((digit, index) => (
             <input
+              placeholder="0"
               key={index}
               ref={(el) => (inputs.current[index] = el)}
               type="text"
@@ -121,7 +124,9 @@ export default function VerifyEmailOtp({
         </div>
 
         <div className="otp-buttons">
-          <Button onClick={verifyOTP}>Verify</Button>
+          <Button onClick={verifyOTP}>
+            {t("profile.profile.emailverify.buttons.verify")}
+          </Button>
 
           <Button
             onClick={() => {
@@ -130,10 +135,14 @@ export default function VerifyEmailOtp({
             }}
             disabled={timer > 0}
           >
-            {timer > 0 ? `Resend OTP (${formatTime(timer)})` : "Resend OTP"}
+            {timer > 0
+              ? `${t("profile.profile.emailverify.buttons.resend")} (${formatTime(timer)})`
+              : t("profile.profile.emailverify.buttons.resend")}
           </Button>
 
-          <Button onClick={onCancel}>Cancel</Button>
+          <Button onClick={onCancel}>
+            {t("profile.profile.emailverify.buttons.cancel")}
+          </Button>
         </div>
       </div>
     </div>
