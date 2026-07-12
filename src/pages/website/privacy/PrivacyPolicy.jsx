@@ -29,8 +29,8 @@ function AccordionItem({ title, children, isOpen, onClick }) {
 }
 
 export default function PrivacyPolicy() {
-  usePageTitle(t("privacy.pageTitle"));
   const { t } = useTranslation();
+  usePageTitle(t("privacy.pageTitle"));
   const sections = t("privacy.sections", { returnObjects: true });
   const [openIndex, setOpenIndex] = useState(0);
   const location = useLocation();

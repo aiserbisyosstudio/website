@@ -115,7 +115,7 @@ const Login = () => {
         </div>
 
         <div className="btn-group">
-          <Button loading={loading} onClick={handleSubmit(submitLogin)}>
+          <Button disabled={loading} loading={loading} onClick={handleSubmit(submitLogin)}>
             {t("login.form.buttons.login")}
           </Button>
           <Button disabled={loading} onClick={clearLoginForm}>

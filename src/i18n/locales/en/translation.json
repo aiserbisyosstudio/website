@@ -610,7 +610,8 @@
         "forgotpassword": "Forgot Password"
       },
       "emailverify": {
-        "title": "Verify Email",
+        "emailtitle": "Verify Email",
+        "mobiletitle": "Verify Mobile",
         "subtitle": "Enter the 6-digit OTP sent to",
         "buttons": {
           "verify": "Verify",

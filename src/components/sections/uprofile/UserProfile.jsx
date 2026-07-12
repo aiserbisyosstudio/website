@@ -10,12 +10,8 @@ import Button from "@/components/common/button/Button";
 import ProfileImagePopup from "../../../components/common/pphoto/ProfileImagePopup";
 import { toast } from "react-toastify";
 import { updateUser } from "../../../redux/slices/userSlice";
-import {
-  updatePassword,
-  sendEmailOtp,
-  verifyEmailOtp as verifyEmailOtpApi,
-} from "@/services/authService";
-import { generateOtp } from "../../../utils/data/otp.util";
+import { updatePassword } from "@/services/authService";
+import { sendEmailOtp, sendMobileOtp } from "@/services/otpService";
 import VerifyEmailOtp from "../../common/otp/VerifyEmailOtp";
 
 export default function UserProfile({ user, t }) {
@@ -40,8 +36,8 @@ export default function UserProfile({ user, t }) {
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
   const [showMenu, setShowMenu] = useState(false);
-  const [emailOtp, setEmailOtp] = useState("");
   const [showOtp, setShowOtp] = useState(false);
+  const [otpFrom, setOtpFrom] = useState(null);
   const fileInputRef = useRef(null);
   const menuRef = useRef(null);
   const [passwords, setPasswords] = useState({
@@ -128,7 +124,6 @@ export default function UserProfile({ user, t }) {
   };
 
   const handlePasswordChange = (e) => {
-    console.log("Password changing: ", e);
     const { name, value } = e.target;
 
     setPasswords((prev) => ({
@@ -317,13 +312,32 @@ export default function UserProfile({ user, t }) {
     e.target.value = "";
   };
 
-  const sendEmailOtpClick = async () => {
+  const sendMobileOtpClick = async () => {
     try {
+      setOtpFrom("MOBILE");
       setShowOtp(false);
       setLoading(true);
-      const emailOtp = generateOtp();
-      setEmailOtp(emailOtp);
-      const response = await sendEmailOtp({ email: user.email, otp: emailOtp });
+      const mobile = `+91${user.mobile}`;
+      const response = await sendMobileOtp({ mobile });
+      setLoading(false);
+      if (response.success) {
+        toast.success("Email otp sent successfully");
+        setShowOtp(true);
+      } else {
+        toast.error("Failed to send email otp");
+      }
+    } catch (error) {
+      setLoading(false);
+      toast.error("Failed to send email otp");
+    }
+  }
+
+  const sendEmailOtpClick = async () => {
+    try {
+      setOtpFrom("EMAIL");
+      setShowOtp(false);
+      setLoading(true);
+      const response = await sendEmailOtp({ email: user.email });
       setLoading(false);
       if (response.success) {
         toast.success("Email otp sent successfully");
@@ -474,7 +488,7 @@ export default function UserProfile({ user, t }) {
             sideButtonText={user?.isMobileVerified
                 ? t("profile.profile.buttons.mobileverified")
                 : t("profile.profile.buttons.verifymobile")}
-            onSideButtonClick={sendOtps}
+            onSideButtonClick={sendMobileOtpClick}
             sideButtonLoading={buttonLoading}
             sideButtonDisabled={enableEditing || user?.isMobileVerified}
           />
@@ -610,9 +624,9 @@ export default function UserProfile({ user, t }) {
       />
       <VerifyEmailOtp
         t={t}
+        otpFrom={otpFrom}
         open={showOtp}
-        emailOtp={emailOtp}
-        email={user.email}
+        user={user}
         onVerify={(otp) => verifyEmailOtp(otp)}
         onResend={() => sendEmailOtpClick()}
         onCancel={() => {

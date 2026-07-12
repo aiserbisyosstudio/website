@@ -2,18 +2,26 @@ import "./VerifyEmailOtp.css";
 import { useEffect, useRef, useState } from "react";
 import Button from "@/components/common/button/Button";
 import { toast } from "react-toastify";
+import { verifyEmailOtp, verifyMobileOtp } from "@/services/otpService";
+import { useDispatch } from "react-redux";
+import { updateUser } from "../../../redux/slices/userSlice";
 
 export default function VerifyEmailOtp({
   t,
+  otpFrom,
   open,
-  emailOtp,
-  email,
+  user,
   onVerify,
   onResend,
   onCancel,
 }) {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [timer, setTimer] = useState(60);
+  const [loading, setLoading] = useState(false);
+  const email = user.email;
+  const mobile = `+91${user.mobile}`;
+  const userId = user._id;
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setOtp(["", "", "", "", "", ""]);
@@ -81,15 +89,31 @@ export default function VerifyEmailOtp({
     inputs.current[Math.min(pasted.length, 5)].focus();
   };
 
-  const verifyOTP = () => {
-    if (otp.join("") === "") {
-      toast.error("Please enter 6 digit otp");
-      return;
-    }
-    if (parseInt(emailOtp) === parseInt(otp.join(""))) {
-      onVerify(otp.join(""));
-    } else {
-      toast.error("Entered otp is not valid");
+  const verifyOTP = async () => {
+    try {
+      setLoading(true);
+      let response;
+      if( otpFrom == "EMAIL" ) {
+        response = await verifyEmailOtp({email, userId, otp: otp.join("")});
+      } else {
+        response = await verifyMobileOtp({mobile, userId, otp: otp.join("")});
+      }
+      setLoading(false);
+      if( response.success ) {
+        dispatch(
+          updateUser({
+            isEmailVerified: true,
+          }),
+        );
+        toast.success("Email verified successfully");
+        onCancel();
+      } else {
+        toast.success("Failed to verify email");
+      }
+    } catch(error) {
+      console.log(error);
+      setLoading(false);
+      toast.success("Failed to verify email");
     }
   };
 
@@ -98,7 +122,11 @@ export default function VerifyEmailOtp({
   return (
     <div className="otp-modal-overlay">
       <div className="otp-modal">
-        <h2>{t("profile.profile.emailverify.title")}</h2>
+        <h2>
+          {otpFrom === "EMAIL"
+            ? t("profile.profile.emailverify.emailtitle")
+            : t("profile.profile.mobileverify.mobiletitle")}
+        </h2>
 
         <p>
           {t("profile.profile.emailverify.subtitle")}
@@ -119,12 +147,13 @@ export default function VerifyEmailOtp({
               onKeyDown={(e) => handleKeyDown(e, index)}
               autoComplete="one-time-code"
               maxLength={1}
+              disabled={loading}
             />
           ))}
         </div>
 
         <div className="otp-buttons">
-          <Button onClick={verifyOTP}>
+          <Button onClick={verifyOTP} disabled={loading}>
             {t("profile.profile.emailverify.buttons.verify")}
           </Button>
 
@@ -133,14 +162,14 @@ export default function VerifyEmailOtp({
               resetOtpFields();
               onResend();
             }}
-            disabled={timer > 0}
+            disabled={timer > 0 || loading}
           >
             {timer > 0
               ? `${t("profile.profile.emailverify.buttons.resend")} (${formatTime(timer)})`
               : t("profile.profile.emailverify.buttons.resend")}
           </Button>
 
-          <Button onClick={onCancel}>
+          <Button onClick={onCancel} disabled={loading}>
             {t("profile.profile.emailverify.buttons.cancel")}
           </Button>
         </div>

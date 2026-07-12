@@ -22,11 +22,14 @@ const Input = ({
   return (
     <div className="contact__field">
       {textarea ? (
-        <textarea
-          rows={rows}
-          className={`${className} ${error ? "error-input shake" : ""}`}
-          {...props}
-        />
+        <>
+          <textarea
+            rows={rows}
+            className={`${className} ${error ? "error-input shake" : ""}`}
+            {...props}
+          />
+          <label htmlFor={props.id}>{label}</label>
+        </>
       ) : (
         <>
           <div className="input-container">

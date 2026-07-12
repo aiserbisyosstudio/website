@@ -3,7 +3,7 @@ import { IoCheckmarkOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
 
 export default function PricingPlans({ t }) {
-  const userPlan = useSelector((state) => state.user.userPlan);
+  const userPlan = useSelector((state) => state.user.plan);
   const planName = userPlan ? userPlan.planName : "";
 
   const plans = [

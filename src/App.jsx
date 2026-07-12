@@ -1,4 +1,5 @@
 import AppRoutes from "./routes";
+import AuthInitializer from "./utils/AuthInitializer";
 import ScrollToTop from "./utils/ScrollToTop";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -7,7 +8,9 @@ function App() {
   return (
     <>
       <ScrollToTop />
-      <AppRoutes />
+      <AuthInitializer>
+        <AppRoutes />
+      </AuthInitializer>
       <ToastContainer
         position="top-right"
         hideProgressBar={false}

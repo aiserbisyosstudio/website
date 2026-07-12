@@ -64,6 +64,22 @@
   padding: 0.7rem 1rem;
   cursor: pointer;
   transition: all 0.2s ease;
+  position: relative;
+}
+
+.plan-card.disabled {
+  cursor: not-allowed;
+}
+
+.current-plan-badge {
+  position: absolute;
+  top: 0.5rem!important; /* 10px */
+  right: 0.625rem; /* 10px */
+  color: white;
+  padding: 0.1875rem 0.5rem; /* 3px 8px */
+  border-radius: 62.4375rem; /* 999px */
+  font-size: 0.7rem;
+  font-weight: 600;
 }
 
 .plan-card h4 {

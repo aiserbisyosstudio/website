@@ -182,7 +182,7 @@ const Register = () => {
         )}
 
         <div className="btn-group">
-          <Button loading={loading} onClick={handleSubmit(submitRegister)}>
+          <Button disabled={loading} loading={loading} onClick={handleSubmit(submitRegister)}>
             {t("register.form.buttons.register")}
           </Button>
 

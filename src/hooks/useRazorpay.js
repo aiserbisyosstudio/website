@@ -44,7 +44,7 @@ const useRazorpay = () => {
         amount,
         userId,
       });
-      if (!order.data.success) {
+      if (!order.success) {
         onFailure?.({
           message: "Failed to create payment order",
         });
@@ -52,10 +52,10 @@ const useRazorpay = () => {
       }
 
       const options = {
-        key: order.data.key,
-        amount: order.data.order.amount,
-        currency: order.data.order.currency,
-        order_id: order.data.order.id,
+        key: order.key,
+        amount: order.order.amount,
+        currency: order.order.currency,
+        order_id: order.order.id,
 
         name,
         description,

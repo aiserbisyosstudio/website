@@ -6,6 +6,7 @@ import PrivacyPolicy from "@/pages/website/privacy/PrivacyPolicy";
 import Blogs from "@/pages/website/blog/Blogs";
 import Profile from "@/pages/website/profile/Profile";
 import ProtectedRoute from "../utils/ProtectedRoute";
+import CreateImage from "../pages/website/features/image/create/CreateImage";
 
 const websiteRoutes = [
   {
@@ -38,6 +39,20 @@ const websiteRoutes = [
           {
             path: "profile",
             element: <Profile />,
+          },
+          {
+            path: "features",
+            children: [
+              {
+                path: "image",
+                children: [
+                  {
+                    path: "create",
+                    element: <CreateImage />,
+                  },
+                ],
+              },
+            ],
           },
         ],
       },

@@ -41,12 +41,12 @@ function AccordionItem({ title, children, isOpen, onClick }) {
 }
 
 export default function TermsConditions() {
-  usePageTitle(t("terms.pageTitle"));
   const { t } = useTranslation();
+  usePageTitle(t("terms.pageTitle"));
   const sections = t("terms.sections", { returnObjects: true });
   const [openIndex, setOpenIndex] = useState(0);
   const location = useLocation();
-  const from = location.state.from;
+  const from = location?.state?.from;
 
   return (
     <section className="privacy">

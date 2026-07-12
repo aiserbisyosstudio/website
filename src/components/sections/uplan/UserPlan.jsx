@@ -1,5 +1,4 @@
 import "./UserPlan.css";
-import Button from "@/components/common/button/Button";
 import {
   Image,
   Video,
@@ -8,9 +7,10 @@ import {
   LayoutGrid,
   ScanSearch,
 } from "lucide-react";
+import UpgradeButton from "../../common/ubutton/UpgradeButton";
 
 export default function UserPlan({ user, plan, usage, t }) {
-  const currentPlan = plan.planId.code;
+  const currentPlan = plan.hasOwnProperty("planId") ? plan.planId.code : plan.planName;
   const plans = t("profile.plan.plans", { returnObjects: true });
 
   const formatDate = (expiryDate) => {
@@ -50,9 +50,9 @@ export default function UserPlan({ user, plan, usage, t }) {
               </>
             )}
           </div>
-          <Button style={{ width: "30rem" }} className="upgrade-btn">
+          <UpgradeButton style={{ width: "30rem" }} user={user} className="upgrade-btn" currentPlan={currentPlan}>
             {t("profile.plan.buttons.upgrade")}
-          </Button>
+          </UpgradeButton>
         </div>
         {currentPlan !== "new" && (
           <>

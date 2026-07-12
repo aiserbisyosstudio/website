@@ -36,12 +36,3 @@ export const sendEmailOtp = async (payload) => {
 
   return response.data;
 };
-
-export const verifyEmailOtp = async (payload) => {
-  const response = await api.post(
-    ENDPOINTS.AUTH.VERIFY_EMAIL_OTP,
-    payload
-  );
-
-  return response.data;
-};

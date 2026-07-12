@@ -7,8 +7,7 @@ import ConfirmPopup from "@/components/common/confirm/ConfirmPopup";
 import Loader from "@/components/common/loader/Loader";
 import { logout as logoutService } from "@/services/authService";
 import { logout as logoutAction } from "@/redux/slices/authSlice";
-import { clearUser } from "@/redux/slices/userSlice"
-import PaymentModal from "@/components/common/payment/PaymentModal";
+import { clearUser } from "@/redux/slices/userSlice";
 import { toast } from "react-toastify";
 import { createPlanOrder } from "@/services/orderService";
 import {
@@ -27,7 +26,7 @@ const languages = [
 
 function Navbar() {
   const user = useSelector((state) => state.user.profile);
-  const userPlan = useSelector((state) => state.user.userPlan);
+  const userPlan = useSelector((state) => state.user.plan);
   const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
   const location = useLocation();
   const hideNavbarRoutes = [
@@ -36,7 +35,11 @@ function Navbar() {
     "/terms-conditions",
     "/privary-policy",
     "/blog",
-    "/profile"
+    "/profile",
+    "/features/image/create",
+    "/features/image/edit",
+    "/features/image/collage",
+    "/features/image/analyze",
   ];
   const isAuthRoute = hideNavbarRoutes.includes(location.pathname);
 
@@ -49,7 +52,6 @@ function Navbar() {
   const [loading, setLoading] = useState(false);
   const [loggedinUser, setLoggedinUser] = useState(user);
   const [isAuthenticated, setIsAuthenticated] = useState(isLoggedIn);
-  const [showPayment, setShowPayment] = useState(false);
   const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
   const language =
     languages.filter(
@@ -65,11 +67,46 @@ function Navbar() {
     location.pathname === "/login" || location.pathname === "/register";
 
   const navItems = [
-    { name: t("navigation.home"), path: "/" },
-    { name: t("navigation.features"), path: "/features" },
-    { name: t("navigation.help"), path: "/help-support" },
-    { name: t("navigation.contact"), path: "/contact" },
-    { name: t("navigation.login"), path: "/auth", auth: !isAuthenticated },
+    {
+      name: t("navigation.home"),
+      path: "/",
+    },
+    {
+      name: t("navigation.features"),
+      auth: isAuthenticated,
+      children: [
+        {
+          name: "Image",
+          children: [
+            { name: "Create", path: "/features/image/create" },
+            { name: "Edit", path: "/features/image/edit" },
+            { name: "Collage", path: "/features/image/collage" },
+            { name: "Analyze", path: "/features/image/analyze" },
+          ],
+        },
+        {
+          name: "Video",
+          children: [
+            { name: "Create", path: "/features/video/create" },
+            { name: "Edit", path: "/features/video/edit" },
+            { name: "Analyze", path: "/features/video/analyze" },
+          ],
+        },
+      ],
+    },
+    {
+      name: t("navigation.help"),
+      path: "/help-support",
+    },
+    {
+      name: t("navigation.contact"),
+      path: "/contact",
+    },
+    {
+      name: t("navigation.login"),
+      path: "/auth",
+      auth: !isAuthenticated,
+    },
   ];
 
   useEffect(() => {
@@ -118,8 +155,7 @@ function Navbar() {
       setIsAuthenticated(false);
       setLoggedinUser(null);
       navigate("/");
-    } catch (error) {
-    }
+    } catch (error) {}
   };
 
   const handleLanguageChange = async (language) => {
@@ -129,26 +165,60 @@ function Navbar() {
     setSelectedLanguage(language);
     setIsLanguageMenuOpen(false);
     setIsOpen(false);
-    if( isAuthenticated ) {
+    if (isAuthenticated) {
       try {
         const userId = loggedinUser._id;
         const code = language.code;
         const label = language.label;
-        const response = await updateLanguage({userId, code, label});
-      } catch(error) {
+        const response = await updateLanguage({ userId, code, label });
+      } catch (error) {
         console.log(error);
       }
     }
   };
 
   const showPaymentModal = () => {
-    if( userPlan && userPlan.status == 'active' ) {
+    if (userPlan && userPlan.status == "active") {
       setShowProfileMenu(false);
       toast.info("There is already an active plan");
     } else {
       setShowPayment(true);
     }
-  }
+  };
+
+  const renderMenu = (items, level = 0) =>
+    items.map((item) => {
+      if (item.auth === false) return null;
+
+      if (item.children) {
+        return (
+          <div key={item.name} className={`navbar-dropdown level-${level}`}>
+            <div className="navbar__link navbar-dropdown-trigger">
+              {item.name}
+            </div>
+
+            <div className="navbar-dropdown-menu">
+              <div className="navbar-dropdown-menu-content">
+                {renderMenu(item.children, level + 1)}
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      return (
+        <NavLink
+          key={item.path}
+          to={item.path}
+          end={item.path === "/"}
+          className={({ isActive }) =>
+            `navbar__link ${isActive ? "active" : ""}`
+          }
+        >
+          {item.name}
+        </NavLink>
+      );
+    });
 
   return (
     <>
@@ -175,22 +245,7 @@ function Navbar() {
                   ☰
                 </button>
                 <nav className={`navbar__nav ${isOpen ? "active" : ""}`}>
-                  {navItems.map((item) => {
-                    if (item.auth === false) return null;
-
-                    return (
-                      <NavLink
-                        key={item.path}
-                        to={item.path}
-                        end={item.path === "/"}
-                        className={({ isActive }) =>
-                          `navbar__link ${isActive ? "active" : ""}`
-                        }
-                      >
-                        {item.name}
-                      </NavLink>
-                    );
-                  })}
+                  {renderMenu(navItems)}
                 </nav>
               </>
             )}
@@ -268,13 +323,6 @@ function Navbar() {
                     </button>
 
                     <button
-                      className="navbar__profile-item"
-                      onClick={() => showPaymentModal()}
-                    >
-                      💎 {t("navigation.profile.buycredits")}
-                    </button>
-
-                    <button
                       className="navbar__profile-item navbar__logout"
                       onClick={() => {
                         setShowProfileMenu(false);
@@ -299,11 +347,6 @@ function Navbar() {
         onCancel={() => setShowConfirm(false)}
       />
       <Loader fullScreen={true} show={loading} />
-      <PaymentModal
-        isOpen={showPayment}
-        user={user}
-        onClose={() => setShowPayment(false)}
-      />
     </>
   );
 }

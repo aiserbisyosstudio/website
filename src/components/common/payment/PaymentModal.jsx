@@ -6,39 +6,54 @@ import bankIcon from "../../../assets/icons/bank.png";
 import { toast } from "react-toastify";
 import useRazorpay from "../../../hooks/useRazorpay";
 import Button from "@/components/common/button/Button";
+import { updatePlan } from "@/services/userService";
+import { useDispatch } from "react-redux";
+import { setUserPlan, updateUser } from "../../../redux/slices/userSlice";
 
-function PaymentModal({ isOpen, user, onClose }) {
+function PaymentModal({ currentPlan, setShowPayment, isOpen, user }) {
   const { startPayment, loading } = useRazorpay();
   const [selectedPlan, setSelectedPlan] = useState(null);
+  const [oloading, setOloading] = useState(false);
+  const dispatch = useDispatch();
 
   const plans = [
     {
       id: "101",
-      title: "Silver",
-      plan: "400 Credits",
-      price: "399",
+      title: "Free Trial",
+      plan: "300 Credits",
+      price: "0",
+      button: "Start Free Trial",
+      key: "free",
     },
     {
       id: "102",
-      title: "Gold",
-      plan: "800 Credits",
-      price: "1000",
+      title: "Silver",
+      plan: "400 Credits",
+      price: "399",
+      button: "Proceed to Pay",
+      key: "silver",
     },
     {
       id: "103",
+      title: "Gold",
+      plan: "1000 Credits",
+      price: "999",
+      button: "Proceed to Pay",
+      key: "gold",
+    },
+    {
+      id: "104",
       title: "Platinum",
       plan: "1800 Credits",
       price: "1999",
+      button: "Proceed to Pay",
+      key: "platinum",
     },
   ];
 
   useEffect(() => {
-    if (isOpen) {
-      setSelectedPlan(null);
-    }
+    if (!isOpen) return;
   }, [isOpen]);
-
-  if (!isOpen) return null;
 
   const handleProceed = () => {
     if (!selectedPlan) {
@@ -46,37 +61,76 @@ function PaymentModal({ isOpen, user, onClose }) {
       return;
     }
 
-    startPayment({
-      amount: parseInt(selectedPlan.price),
-      userId: user._id,
-      credits: parseInt(selectedPlan.plan.replaceAll("credits", "").trim()),
-      name: "AISerbisyoStudio",
-      description: "Purchase Credits",
+    if (selectedPlan.id == "101") {
+      updateUserPlan();
+    } else {
+      setShowPayment(false);
+      startPayment({
+        amount: parseInt(selectedPlan.price),
+        userId: user._id,
+        credits: parseInt(selectedPlan.plan.replaceAll("credits", "").trim()),
+        name: "AISerbisyoStudio",
+        description: "Purchase Credits",
 
-      prefill: {
-        name: user.name,
-        email: user.email,
-        contact: user.mobile,
-      },
+        prefill: {
+          name: user.name,
+          email: user.email,
+          contact: user.mobile,
+        },
 
-      onSuccess: (data) => {
-        onClose();
-        toast.success("Payment successful");
-      },
+        onSuccess: (data) => {
+          setShowPayment(false);
+          toast.success("Plan activated successfully");
+        },
 
-      onFailure: (error) => {
-        toast.error(error.message || "Failed to make payemnt");
-      },
-    });
+        onFailure: (error) => {
+          toast.error(error.message || "Failed to make payemnt");
+        },
+      });
+    }
+  };
+
+  const updateUserPlan = async () => {
+    try {
+      setOloading(true);
+
+      const response = await updatePlan({ userId: user._id, code: "free" });
+      setOloading(false);
+      if (response.success) {
+        dispatch(setUserPlan(response.plan));
+        dispatch(
+          updateUser({
+            memberShipStatus: "free",
+            availableCredits: response.plan.remainingCredits,
+          }),
+        );
+        toast.success("Plan activated successfully");
+        setShowPayment(false);
+      } else {
+        toast.error("Failed to activat plan");
+      }
+    } catch (error) {
+      setOloading(false);
+      toast.error(error.response?.data?.message || "Failed to activat plan");
+    }
+  };
+
+  const planCardClicked = (plan) => {
+    if (plan.key === currentPlan && currentPlan === "free") {
+      return;
+    }
+    selectedPlan && selectedPlan.id == plan.id
+      ? setSelectedPlan(null)
+      : setSelectedPlan(plan);
   };
 
   return (
     <div className="payment-modal-overlay">
       <div className="payment-modal">
         <div className="payment-header">
-          <h2>Buy Credits</h2>
+          <h2>Simple, Transparent Pricing</h2>
 
-          <Button className="close-btn" onClick={onClose}>
+          <Button className="close-btn" onClick={() => setShowPayment(false)}>
             ✕
           </Button>
         </div>
@@ -96,13 +150,17 @@ function PaymentModal({ isOpen, user, onClose }) {
                 key={plan.id}
                 className={`plan-card ${
                   selectedPlan?.id === plan.id ? "selected" : ""
+                } ${
+                  currentPlan === "free" && plan.key === "free"
+                    ? "disabled"
+                    : ""
                 }`}
-                onClick={() => {
-                  selectedPlan && selectedPlan.id == plan.id
-                    ? setSelectedPlan(null)
-                    : setSelectedPlan(plan);
-                }}
+                onClick={() => planCardClicked(plan)}
               >
+                {currentPlan == plan.key && (
+                  <span className="current-plan-badge">Active</span>
+                )}
+
                 <h4>{plan.title}</h4>
 
                 <div className="plan-details">
@@ -114,14 +172,14 @@ function PaymentModal({ isOpen, user, onClose }) {
           </div>
         </div>
 
-        <Button
-          style={{ marginTop: "1rem", marginBottom: ".5rem" }}
-        >
+        <Button style={{ marginTop: "1rem", marginBottom: ".5rem" }}>
           Transaction History
         </Button>
-        <Button loading={loading} onClick={() => handleProceed()}>
-          Proceed to Pay
-        </Button>
+        {selectedPlan && selectedPlan.key !== currentPlan && (
+          <Button loading={oloading} onClick={() => handleProceed()}>
+            {selectedPlan.button}
+          </Button>
+        )}
       </div>
     </div>
   );
