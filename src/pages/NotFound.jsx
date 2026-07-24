@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { FaHome } from "react-icons/fa";
 
 export default function NotFound() {
   return (
@@ -15,7 +16,18 @@ export default function NotFound() {
         <h2>Page Not Found</h2>
         <p>The page you're looking for doesn't exist.</p>
 
-        <Link to="/">Go to Home</Link>
+        <Link
+          to="/"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "6px",
+            marginTop: '2rem'
+          }}
+        >
+          <FaHome />
+          Go to Home
+        </Link>
       </div>
     </div>
   );

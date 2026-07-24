@@ -7,6 +7,9 @@ import Blogs from "@/pages/website/blog/Blogs";
 import Profile from "@/pages/website/profile/Profile";
 import ProtectedRoute from "../utils/ProtectedRoute";
 import CreateImage from "../pages/website/features/image/create/CreateImage";
+import TransactionHistory from "../pages/website/transaction-history/TransactionHistory";
+import EditImage from "../pages/website/features/image/edit/EditImage";
+import ImageCollage from "../pages/website/features/image/collage/ImageCollage";
 
 const websiteRoutes = [
   {
@@ -41,6 +44,10 @@ const websiteRoutes = [
             element: <Profile />,
           },
           {
+            path: "transaction-history",
+            element: <TransactionHistory />,
+          },
+          {
             path: "features",
             children: [
               {
@@ -49,6 +56,14 @@ const websiteRoutes = [
                   {
                     path: "create",
                     element: <CreateImage />,
+                  },
+                  {
+                    path: "edit",
+                    element: <EditImage />,
+                  },
+                  {
+                    path: "collage",
+                    element: <ImageCollage />,
                   },
                 ],
               },

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import "./CreateImage.css";
+import "../../image/Common.css";
 import { FiDownload, FiShare2 } from "react-icons/fi";
 import Button from "@/components/common/button/Button";
 import usePageTitle from "../../../../../hooks/usePageTitle";
@@ -16,8 +16,6 @@ import ConfirmPopup from "@/components/common/confirm/ConfirmPopup";
 export default function CreateImage() {
   usePageTitle("Create Image | AISerbisyosStudio");
   const user = useSelector((state) => state.user.profile);
-  const usage = useSelector((state) => state.user.usage);
-  const plan = useSelector((state) => state.user.plan);
   const [prompt, setPrompt] = useState("");
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -110,7 +108,7 @@ export default function CreateImage() {
       setImage(null);
       setLoading(false);
       setLoadingButton(null);
-      toast.error(error.response?.data?.message || "Failed to create imaget");
+      toast.error(error.response?.data?.message || "Failed to create image");
     }
   };
 
@@ -230,7 +228,7 @@ export default function CreateImage() {
             <div className="placeholder">
               <div className="placeholder-icon">🎨</div>
               <h2>Create Amazing AI Images</h2>
-              <p>Enter a prompt below and let AI create your imagination.</p>
+              <p>Describe your vision, and let AI create it for you.</p>
             </div>
           )}
         </div>

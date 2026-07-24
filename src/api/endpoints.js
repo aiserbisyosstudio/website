@@ -34,6 +34,10 @@ const ENDPOINTS = {
     GENERATE_PROMPT: "/serbisyos/generate-prompt",
     CREATE_IMAGE: "/serbisyos/generate-image",
   },
+
+  STATISTICS: {
+    PROFILE_STATS: "/statistics/get-profile-stats",
+  }
 };
 
 export default ENDPOINTS;

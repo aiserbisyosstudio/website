@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import "./Navbar.css";
 import logo from "../../../assets/images/logos/app-logo.png";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import ConfirmPopup from "@/components/common/confirm/ConfirmPopup";
 import Loader from "@/components/common/loader/Loader";
@@ -29,7 +29,6 @@ function Navbar() {
   const user = useSelector((state) => state.user.profile);
   const userPlan = useSelector((state) => state.user.plan);
   const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
-  console.log("Is logged in: ", isLoggedIn);
   const location = useLocation();
   const hideNavbarRoutes = [
     "/auth/login",
@@ -38,10 +37,7 @@ function Navbar() {
     "/privacy-policy",
     "/blog",
     "/profile",
-    "/features/image/create",
-    "/features/image/edit",
-    "/features/image/collage",
-    "/features/image/analyze",
+    "/transaction-history",
   ];
   const isAuthRoute = hideNavbarRoutes.includes(location.pathname);
 
@@ -76,6 +72,7 @@ function Navbar() {
     {
       name: t("navigation.features"),
       auth: isAuthenticated,
+      path: "/features",
       children: [
         {
           name: "Image",
@@ -188,14 +185,35 @@ function Navbar() {
     }
   };
 
-  const renderMenu = (items, level = 0) =>
-    items.map((item) => {
+  const renderMenu = (items, level = 0) => {
+    const isParentActive = (menu) => {
+      if (!menu.children) return false;
+
+      return menu.children.some((child) => {
+        if (child.children) {
+          return isParentActive(child);
+        }
+
+        return (
+          child.path &&
+          (location.pathname === child.path ||
+            location.pathname.startsWith(child.path + "/"))
+        );
+      });
+    };
+
+    return items.map((item) => {
       if (item.auth === false) return null;
 
+      // Parent menu (Features)
       if (item.children) {
         return (
           <div key={item.name} className={`navbar-dropdown level-${level}`}>
-            <div className="navbar__link navbar-dropdown-trigger">
+            <div
+              className={`navbar__link navbar-dropdown-trigger ${
+                isParentActive(item) ? "active" : ""
+              }`}
+            >
               {item.name}
             </div>
 
@@ -208,6 +226,16 @@ function Navbar() {
         );
       }
 
+      // Submenus (never active)
+      if (level > 0) {
+        return (
+          <Link key={item.path} to={item.path} className="navbar__link">
+            {item.name}
+          </Link>
+        );
+      }
+
+      // Top-level menus (Home, Help, Contact, Login)
       return (
         <NavLink
           key={item.path}
@@ -216,11 +244,18 @@ function Navbar() {
           className={({ isActive }) =>
             `navbar__link ${isActive ? "active" : ""}`
           }
+          onClick={() => {
+            setIsOpen(false);
+            setDropdownOpen(false);
+            setShowProfileMenu(false);
+            setIsLanguageMenuOpen(false);
+          }}
         >
           {item.name}
         </NavLink>
       );
     });
+  };
 
   return (
     <>
@@ -252,7 +287,7 @@ function Navbar() {
               </>
             )}
 
-            <div className="language-dropdown">
+            {/* <div className="language-dropdown">
               <button
                 type="button"
                 className="language-pill"
@@ -289,7 +324,7 @@ function Navbar() {
                   ))}
                 </div>
               )}
-            </div>
+            </div> */}
 
             {isAuthenticated && (
               <div className="navbar__profile-wrapper" ref={profileRef}>
@@ -328,7 +363,7 @@ function Navbar() {
                     <button
                       className="navbar__profile-item"
                       onClick={() => {
-                        navigate("/transactions-history");
+                        navigate("/transaction-history");
                         setShowProfileMenu(false);
                       }}
                     >

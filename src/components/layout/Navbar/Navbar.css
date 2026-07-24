@@ -69,7 +69,7 @@
 
 .navbar__link.active {
   background: var(--color-primary);
-  color: var(--color-white);
+  color: white!important;
 }
 
 /* Toggle */
