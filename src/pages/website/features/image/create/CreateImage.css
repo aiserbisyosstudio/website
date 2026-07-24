@@ -299,8 +299,8 @@
 
 .size-row {
   display: flex;
-  gap: .5rem;
-  padding: 1rem 0
+  gap: 0.5rem;
+  padding: 1rem 0;
 }
 
 .box {
@@ -314,20 +314,27 @@
 }
 
 .box:hover {
-  background: #003a6b!important;
-  border-color: #003a6b!important;
-  color: white!important;
+  background: #003a6b !important;
+  border-color: #003a6b !important;
+  color: white !important;
 }
 
 .selectedBox {
-  background: #003a6b!important;
-  border-color: #003a6b!important;
-  color: white!important;
+  background: #003a6b !important;
+  border-color: #003a6b !important;
+  color: white !important;
 }
 
 .box:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+.primary-button {
+  background: white !important;
+  color: #003a6b !important;
+  border-radius: 0.5rem;
+  border: 1px solid #003a6b;
 }
 
 @media (max-width: 768px) {

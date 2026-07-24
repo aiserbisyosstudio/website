@@ -2,7 +2,7 @@ const ENDPOINTS = {
   AUTH: {
     LOGIN: "/auth/login",
     LOGOUT: "/auth/logout",
-    UPDATE_PASSWORD: "/auth/update-password"
+    UPDATE_PASSWORD: "/auth/update-password",
   },
 
   USER: {
@@ -11,7 +11,7 @@ const ENDPOINTS = {
     UPDATE_PLAN: "/user/update-plan",
     GET_PROFILE: "/user/get-profile",
     UPDATE_PHOTO: "/user/upload-photo",
-    REMOVE_PHOTO: "/user/remove-photo"
+    REMOVE_PHOTO: "/user/remove-photo",
   },
 
   ORDER: {
@@ -30,10 +30,10 @@ const ENDPOINTS = {
     VERIFY_MOBILE_OTP: "/otp/verify-mobile-otp",
   },
 
-  AI: {
-    GENERATE_PROMPT: "/ai/generate-prompt",
-    CREATE_IMAGE: "/ai/create-image"
-  }
+  SERBISYOS_AI: {
+    GENERATE_PROMPT: "/serbisyos/generate-prompt",
+    CREATE_IMAGE: "/serbisyos/generate-image",
+  },
 };
 
 export default ENDPOINTS;

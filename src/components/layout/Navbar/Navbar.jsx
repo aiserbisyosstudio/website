@@ -17,6 +17,7 @@ import {
 } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
 import { updateLanguage } from "@/services/userService";
+import { FaHistory, FaUser, FaSignOutAlt } from "react-icons/fa";
 
 const languages = [
   { code: "en", label: "English" },
@@ -28,12 +29,13 @@ function Navbar() {
   const user = useSelector((state) => state.user.profile);
   const userPlan = useSelector((state) => state.user.plan);
   const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
+  console.log("Is logged in: ", isLoggedIn);
   const location = useLocation();
   const hideNavbarRoutes = [
     "/auth/login",
     "/auth/register",
     "/terms-conditions",
-    "/privary-policy",
+    "/privacy-policy",
     "/blog",
     "/profile",
     "/features/image/create",
@@ -319,7 +321,19 @@ function Navbar() {
                         setShowProfileMenu(false);
                       }}
                     >
-                      👤 {t("navigation.profile.profile")}
+                      <FaUser className="navbar__profile-icon" />
+                      {t("navigation.profile.profile")}
+                    </button>
+
+                    <button
+                      className="navbar__profile-item"
+                      onClick={() => {
+                        navigate("/transactions-history");
+                        setShowProfileMenu(false);
+                      }}
+                    >
+                      <FaHistory className="navbar__profile-icon" />
+                      {t("navigation.profile.transationsHistory")}
                     </button>
 
                     <button
@@ -329,7 +343,8 @@ function Navbar() {
                         setShowConfirm(true);
                       }}
                     >
-                      🚪 {t("navigation.profile.logout")}
+                      <FaSignOutAlt className="navbar__profile-icon" />
+                      {t("navigation.profile.logout")}
                     </button>
                   </div>
                 )}

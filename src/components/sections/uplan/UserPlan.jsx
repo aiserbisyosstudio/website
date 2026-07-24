@@ -50,7 +50,7 @@ export default function UserPlan({ user, plan, usage, t }) {
               </>
             )}
           </div>
-          <UpgradeButton style={{ width: "30rem" }} user={user} className="upgrade-btn" currentPlan={currentPlan}>
+          <UpgradeButton style={{ width: "30rem" }} user={user} className="upgrade-btn" currentPlan={currentPlan || ""}>
             {t("profile.plan.buttons.upgrade")}
           </UpgradeButton>
         </div>

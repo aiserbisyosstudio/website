@@ -4,7 +4,8 @@ import { useSelector } from "react-redux";
 
 export default function PricingPlans({ t }) {
   const userPlan = useSelector((state) => state.user.plan);
-  const planName = userPlan ? userPlan.planName : "";
+  const planName = userPlan ? userPlan.planId.code : "";
+  console.log("Current plan name: ", planName);
 
   const plans = [
     {

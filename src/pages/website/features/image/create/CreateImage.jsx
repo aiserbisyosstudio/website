@@ -4,7 +4,7 @@ import { FiDownload, FiShare2 } from "react-icons/fi";
 import Button from "@/components/common/button/Button";
 import usePageTitle from "../../../../../hooks/usePageTitle";
 import LoadingStatus from "../../../../../components/common/lstatus/LoadingStatus";
-import { generateAiPrompt, createAiImage } from "@/services/aiService";
+import { generateAiPrompt, generateAiImage } from "@/services/serbisyosService";
 import Input from "@/components/common/input/Input";
 import { useMediaQuery } from "react-responsive";
 import { toast } from "react-toastify";
@@ -23,8 +23,6 @@ export default function CreateImage() {
   const [loading, setLoading] = useState(false);
   const [showPromptSuggestions, setShowPromptSuggestions] = useState(false);
   const [showPromptConfirm, setShowPromptConfirm] = useState(false);
-  const [selectedImage, setSelectedImage] = useState("Square");
-  const [selectedImageSize, setSelectedImageSize] = useState("1024x1024");
   const [loadingButton, setLoadingButton] = useState(null);
   const dropdownRef = useRef(null);
   const isMobile = useMediaQuery({ maxWidth: 480 });
@@ -54,24 +52,6 @@ export default function CreateImage() {
     "💎 Enhancing image quality...",
     "🚀 Rendering the final image...",
     "🎉 Your masterpiece is almost ready...",
-  ];
-
-  const imageSizes = [
-    {
-      key: "square",
-      label: "Square",
-      value: "1024x1024",
-    },
-    {
-      key: "landscape",
-      label: "Landscape",
-      value: "1536x1024",
-    },
-    {
-      key: "portrait",
-      label: "Portrait",
-      value: "1024x1536",
-    },
   ];
 
   useEffect(() => {
@@ -113,9 +93,8 @@ export default function CreateImage() {
     try {
       setLoading(true);
       setLoadingButton("GENERATE_IMAGE");
-      const response = await createAiImage({
+      const response = await generateAiImage({
         prompt,
-        size: selectedImageSize,
         userId: user._id,
       });
       setLoadingButton(null);
@@ -145,7 +124,7 @@ export default function CreateImage() {
         setPrompt(response.prompt);
         toast.success("Prompt generated successfully");
       } else {
-        toast.error("Failed to generate prompt");
+        toast.error(response.message || "Failed to generate prompt");
       }
     } catch (error) {
       setLoadingButton(null);
@@ -155,7 +134,6 @@ export default function CreateImage() {
 
   const clearCreateImage = () => {
     setLoading(false);
-    setGloading(false);
     setPrompt("");
     setImage(null);
   };
@@ -239,7 +217,10 @@ export default function CreateImage() {
                     <FiDownload />
                   </button>
 
-                  <button className="image-action-btn" onClick={() => shareImage()}>
+                  <button
+                    className="image-action-btn"
+                    onClick={() => shareImage()}
+                  >
                     <FiShare2 />
                   </button>
                 </div>
@@ -267,39 +248,7 @@ export default function CreateImage() {
             disabled={loading}
           />
 
-          <div className="size-row">
-            {imageSizes.map((item, index) => (
-              <button
-                key={item.key}
-                type="button"
-                className={`box ${selectedImage === item.label ? "selectedBox" : ""}`}
-                style={{
-                  ...(index === 0 && {
-                    borderTopLeftRadius: ".5rem",
-                    borderBottomLeftRadius: ".5rem",
-                  }),
-                  ...(index === imageSizes.length - 1 && {
-                    borderTopRightRadius: ".5rem",
-                    borderBottomRightRadius: ".5rem",
-                  }),
-                }}
-                onClick={() => imageSizeSelected(item)}
-                disabled={loading}
-              >
-                <span>{item.label}</span>
-              </button>
-            ))}
-          </div>
-
           <div className="button-row">
-            <Button
-              style={{ padding: ".9rem" }}
-              loading={loadingButton === "GENERATE_PROMPT"}
-              disabled={loadingButton !== null}
-              onClick={generatePrompt}
-            >
-              Generate Prompt
-            </Button>
             <div className="dropdown" ref={dropdownRef}>
               <Button
                 style={{ padding: ".9rem" }}
@@ -319,12 +268,22 @@ export default function CreateImage() {
               )}
             </div>
             <Button
+              style={{ padding: ".9rem" }}
+              loading={loadingButton === "GENERATE_PROMPT"}
+              disabled={loadingButton !== null}
+              onClick={generatePrompt}
+            >
+              Generate Prompt
+            </Button>
+            <Button
               onClick={generateImage}
               loading={loadingButton === "GENERATE_IMAGE"}
               disabled={loadingButton !== null}
               style={{ padding: ".9rem" }}
+              customClass="primary-button"
+              theme="dark"
             >
-              Generate Image
+              Create Image
             </Button>
             <Button
               disabled={loadingButton !== null}

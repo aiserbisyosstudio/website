@@ -58,7 +58,7 @@ const Login = () => {
       }
     } catch (error) {
       setLoading(false);
-      toast.error("Failed to login");
+      toast.error(error.response?.data?.message || "Failed to login");
     }
   };
 

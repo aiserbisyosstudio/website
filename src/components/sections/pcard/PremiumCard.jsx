@@ -50,7 +50,7 @@ function PremiumCard() {
         </div>
 
         <UpgradeButton
-          currentPlan={currentPlan}
+          currentPlan={currentPlan || ""}
           className="premium-card__button" user={user}>
           {button}
           <IoChevronForward size={18} />

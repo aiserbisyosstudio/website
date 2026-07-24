@@ -22,7 +22,7 @@ export default function LoadingStatus({ loadingMessages }) {
         <span></span>
       </div>
 
-      <h3 className="loading-title">Generating Your Image</h3>
+      <h3 className="loading-title">Creating Your Image</h3>
 
       <p className="loading-message">
         {loadingMessages[messageIndex]}

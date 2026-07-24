@@ -33,6 +33,17 @@
   animation: spin 0.8s linear infinite;
 }
 
+.dark {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid rgba(0, 58, 107, 0.3);
+  border-top: 2px solid #003a6b;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: spin 0.8s linear infinite;
+}
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);

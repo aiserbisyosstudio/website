@@ -8,6 +8,7 @@
     "login": "Login/Register",
     "profile": {
       "profile": "Profile",
+      "transationsHistory": "Transaction History",
       "buycredits": "Buy Credits",
       "logout": "Logout"
     },
