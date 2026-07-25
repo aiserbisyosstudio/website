@@ -142,7 +142,6 @@ export default function TransactionHistory() {
       <div className="transactions__header">
         <div>
           <h2>Transaction History</h2>
-          <p>Track your purchased and spent credits.</p>
         </div>
 
         <div className="filter" ref={wrapperRef}>

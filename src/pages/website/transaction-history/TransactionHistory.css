@@ -265,7 +265,7 @@
 
 @media (max-width: 992px) {
   .transactions {
-    padding: 1.5rem;
+    padding: 3rem 1.5rem;
   }
 
   .transactions__summary {
@@ -312,7 +312,7 @@
 
 @media (max-width: 480px) {
   .transactions {
-    padding: 1rem;
+    padding: 3rem 1rem;
   }
 
   .transactions__header h2 {
