@@ -82,9 +82,7 @@ export default function CreateImage() {
 
   const generateImage = async () => {
     if (!prompt) {
-      toast.error(
-        "Please provide a description for the image you want to create",
-      );
+      setShowPromptSuggestions((prev) => !prev);
       return;
     }
 
@@ -196,7 +194,10 @@ export default function CreateImage() {
       <div className="image-page">
         <div className="preview-card">
           {loading ? (
-            <LoadingStatus loadingMessages={loadingMessages}  headingText="Creating Your Image"/>
+            <LoadingStatus
+              loadingMessages={loadingMessages}
+              headingText="Creating Your Image"
+            />
           ) : image ? (
             <>
               <div className="image-preview">
@@ -244,14 +245,18 @@ export default function CreateImage() {
           <div className="button-row">
             <div className="dropdown" ref={dropdownRef}>
               <Button
-                style={{ padding: ".9rem" }}
+                onClick={generateImage}
+                loading={loadingButton === "GENERATE_IMAGE"}
                 disabled={loadingButton !== null}
-                onClick={() => setShowPromptSuggestions((prev) => !prev)}
+                style={{ padding: ".9rem" }}
+                customClass="primary-button"
+                theme="dark"
               >
-                Sample Prompts
+                Create Image
               </Button>
               {showPromptSuggestions && (
                 <div className="dropdown-menu custom-scrollbar">
+                  <h4 className="dropdown-heading">✨ Please select a prompt</h4>
                   {samplePrompts.map((item) => (
                     <button key={item} onClick={() => handlePromptSelect(item)}>
                       {item}
@@ -267,16 +272,6 @@ export default function CreateImage() {
               onClick={generatePrompt}
             >
               Generate Prompt
-            </Button>
-            <Button
-              onClick={generateImage}
-              loading={loadingButton === "GENERATE_IMAGE"}
-              disabled={loadingButton !== null}
-              style={{ padding: ".9rem" }}
-              customClass="primary-button"
-              theme="dark"
-            >
-              Create Image
             </Button>
             <Button
               disabled={loadingButton !== null}

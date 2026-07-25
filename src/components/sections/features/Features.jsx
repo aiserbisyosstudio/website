@@ -13,8 +13,10 @@ import {
 import { FaPenNib, FaDownload } from "react-icons/fa";
 import { IoArrowForwardOutline } from "react-icons/io5";
 import { IoSparkles } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
 export default function Features({ t }) {
+  const navigate = useNavigate();
   const features = [
     {
       icon: <IoImageOutline />,
@@ -22,6 +24,7 @@ export default function Features({ t }) {
       description: t("home.features.cards.one.description"),
       tooltip: t("home.features.cards.one.tooltip"),
       color: "#8b5cf6",
+      path: "/features/image/create",
     },
     {
       icon: <IoColorWandOutline />,
@@ -29,6 +32,7 @@ export default function Features({ t }) {
       description: t("home.features.cards.two.description"),
       tooltip: t("home.features.cards.two.tooltip"),
       color: "#ec4899",
+      path: "/features/image/edit",
     },
     {
       icon: <IoImagesOutline />,
@@ -36,6 +40,7 @@ export default function Features({ t }) {
       description: t("home.features.cards.three.description"),
       tooltip: t("home.features.cards.three.tooltip"),
       color: "#3b82f6",
+      path: "/features/image/collage",
     },
     {
       icon: <IoSearchOutline />,
@@ -43,6 +48,7 @@ export default function Features({ t }) {
       description: t("home.features.cards.four.description"),
       tooltip: t("home.features.cards.four.tooltip"),
       color: "#f59e0b",
+      path: "/features/image/analyze",
     },
     {
       icon: <IoVideocamOutline />,
@@ -50,6 +56,7 @@ export default function Features({ t }) {
       description: t("home.features.cards.five.description"),
       tooltip: t("home.features.cards.five.tooltip"),
       color: "#10b981",
+      path: "/features/video/create",
     },
     {
       icon: <IoFilmOutline />,
@@ -57,6 +64,7 @@ export default function Features({ t }) {
       description: t("home.features.cards.six.description"),
       tooltip: t("home.features.cards.six.tooltip"),
       color: "#ef4444",
+      path: "/features/image/edit",
     },
     {
       icon: <IoAnalyticsOutline />,
@@ -64,8 +72,14 @@ export default function Features({ t }) {
       description: t("home.features.cards.seven.description"),
       tooltip: t("home.features.cards.seven.tooltip"),
       color: "#6366f1",
+      path: "/features/image/analyze",
     },
   ];
+
+  const navigateTo = (pageUrl) => {
+    console.log("Page url: ", pageUrl);
+    navigate(pageUrl, { replace: true });
+  };
 
   return (
     <>
@@ -78,10 +92,13 @@ export default function Features({ t }) {
 
         <div className="features-grid">
           {features.map((item, index) => (
-            <div className="feature-cards" key={index}>
-              <button
-                className="info-icon">
-                <IoInformationCircleOutline size={20}/>
+            <div
+              className="feature-cards"
+              key={index}
+              onClick={() => navigateTo(item.path)}
+            >
+              <button className="info-icon">
+                <IoInformationCircleOutline size={20} />
                 <span className="tooltip">{item.tooltip}</span>
               </button>
               <div

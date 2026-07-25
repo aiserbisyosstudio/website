@@ -204,9 +204,7 @@ export default function ImageCollage() {
     }
 
     if (!prompt) {
-      toast.error(
-        "Please provide a description for the image you want to edit",
-      );
+      setShowPromptSuggestions((prev) => !prev);
       return;
     }
 
@@ -320,16 +318,27 @@ export default function ImageCollage() {
             />
 
             <div className="button-row">
+              <Button
+                style={{ padding: ".9rem" }}
+                disabled={loadingButton !== null}
+                onClick={handleButtonClick}
+              >
+                Upload Images
+              </Button>
               <div className="dropdown" ref={dropdownRef}>
                 <Button
-                  style={{ padding: ".9rem" }}
+                  onClick={createImageCollage}
+                  loading={loadingButton === "CREATE_COLLAGE"}
                   disabled={loadingButton !== null}
-                  onClick={() => setShowPromptSuggestions((prev) => !prev)}
+                  style={{ padding: ".9rem" }}
+                  customClass="primary-button"
+                  theme="dark"
                 >
-                  Sample Prompts
+                  Create Collage
                 </Button>
                 {showPromptSuggestions && (
-                  <div className="dropdown-menu custom-scrollbar">
+                  <div className="dropdown-menu second custom-scrollbar">
+                    <h4 className="dropdown-heading">✨ Please select a prompt</h4>
                     {samplePrompts.map((item) => (
                       <button
                         key={item}
@@ -351,29 +360,13 @@ export default function ImageCollage() {
               />
               <Button
                 style={{ padding: ".9rem" }}
-                disabled={loadingButton !== null}
-                onClick={handleButtonClick}
-              >
-                Upload Images
-              </Button>
-              <Button
-                style={{ padding: ".9rem" }}
                 loading={loadingButton === "GENERATE_PROMPT"}
                 disabled={loadingButton !== null}
                 onClick={generatePrompt}
               >
                 Generate Prompt
               </Button>
-              <Button
-                onClick={createImageCollage}
-                loading={loadingButton === "CREATE_COLLAGE"}
-                disabled={loadingButton !== null}
-                style={{ padding: ".9rem" }}
-                customClass="primary-button"
-                theme="dark"
-              >
-                Create Collage
-              </Button>
+
               <Button
                 disabled={loadingButton !== null}
                 style={{ padding: ".9rem" }}

@@ -93,9 +93,7 @@ export default function EditImage() {
     }
 
     if (!prompt) {
-      toast.error(
-        "Please provide a description for the image you want to edit",
-      );
+      setShowPromptSuggestions((prev) => !prev);
       return;
     }
 
@@ -107,12 +105,12 @@ export default function EditImage() {
       formData.append("image", selectedFile);
       formData.append("prompt", prompt);
       formData.append("userId", user._id);
-      
+
       const response = await editAiImage(formData);
       setLoadingButton(null);
       setLoading(false);
-      
-      if( response.success ) {
+
+      if (response.success) {
         setImage(response.image_url);
         setOriginal(null);
         setSelectedFile(null);
@@ -166,7 +164,7 @@ export default function EditImage() {
     }
   };
 
-   const downloadImage = async (fileName = "AIEditedImage.png") => {
+  const downloadImage = async (fileName = "AIEditedImage.png") => {
     try {
       const response = await fetch(image);
       const blob = await response.blob();
@@ -228,7 +226,10 @@ export default function EditImage() {
         <div className="image-page">
           <div className="preview-card">
             {loading ? (
-              <LoadingStatus loadingMessages={loadingMessages} headingText="Editing Your Image"/>
+              <LoadingStatus
+                loadingMessages={loadingMessages}
+                headingText="Editing Your Image"
+              />
             ) : image ? (
               <>
                 <div className="image-preview">
@@ -277,16 +278,29 @@ export default function EditImage() {
             />
 
             <div className="button-row">
+              <Button
+                style={{ padding: ".9rem" }}
+                disabled={loadingButton !== null}
+                onClick={handleButtonClick}
+              >
+                Upload Image
+              </Button>
               <div className="dropdown" ref={dropdownRef}>
                 <Button
-                  style={{ padding: ".9rem" }}
+                  onClick={editImage}
+                  loading={loadingButton === "EDIT_IMAGE"}
                   disabled={loadingButton !== null}
-                  onClick={() => setShowPromptSuggestions((prev) => !prev)}
+                  style={{ padding: ".9rem" }}
+                  customClass="primary-button"
+                  theme="dark"
                 >
-                  Sample Prompts
+                  Edit Image
                 </Button>
                 {showPromptSuggestions && (
-                  <div className="dropdown-menu custom-scrollbar">
+                  <div className="dropdown-menu second custom-scrollbar">
+                    <h4 className="dropdown-heading">
+                      ✨ Please select a prompt
+                    </h4>
                     {samplePrompts.map((item) => (
                       <button
                         key={item}
@@ -307,28 +321,11 @@ export default function EditImage() {
               />
               <Button
                 style={{ padding: ".9rem" }}
-                disabled={loadingButton !== null}
-                onClick={handleButtonClick}
-              >
-                Upload Image
-              </Button>
-              <Button
-                style={{ padding: ".9rem" }}
                 loading={loadingButton === "GENERATE_PROMPT"}
                 disabled={loadingButton !== null}
                 onClick={generatePrompt}
               >
                 Generate Prompt
-              </Button>
-              <Button
-                onClick={editImage}
-                loading={loadingButton === "EDIT_IMAGE"}
-                disabled={loadingButton !== null}
-                style={{ padding: ".9rem" }}
-                customClass="primary-button"
-                theme="dark"
-              >
-                Edit Image
               </Button>
               <Button
                 disabled={loadingButton !== null}
