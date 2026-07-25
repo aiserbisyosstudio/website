@@ -155,6 +155,8 @@
   margin-top: 2rem !important;
   width: 80%;
   margin: 0 auto;
+  height: 35rem;
+  overflow: auto;
 }
 
 .transaction {
@@ -178,14 +180,44 @@
   flex-shrink: 0;
 }
 
-.transaction--buy .transaction__icon {
-  background: #e8f8ef;
-  color: #18a558;
+.transaction--ai-image-create .transaction__icon {
+  color: rgb(139, 92, 246);
+  background: rgba(139, 92, 246, 0.082);
 }
 
-.transaction--spent .transaction__icon {
-  background: #ffeaea;
-  color: #ef4444;
+.transaction--ai-image-edit .transaction__icon {
+  color: rgb(236, 72, 153);
+  background: rgba(236, 72, 153, 0.082);
+}
+
+.transaction--ai-image-collage .transaction__icon {
+  color: rgb(59, 130, 246);
+  background: rgba(59, 130, 246, 0.082);
+}
+
+.transaction--ai-image-analyze .transaction__icon {
+  color: rgb(245, 158, 11);
+  background: rgba(245, 158, 11, 0.082);
+}
+
+.transaction--ai-video-create .transaction__icon {
+  color: rgb(16, 185, 129);
+  background: rgba(16, 185, 129, 0.082);
+}
+
+.transaction--ai-video-edit .transaction__icon {
+  color: rgb(239, 68, 68);
+  background: rgba(239, 68, 68, 0.082);
+}
+
+.transaction--ai-video-analyze .transaction__icon {
+  color: rgb(99, 102, 241);
+  background: rgba(99, 102, 241, 0.082);
+}
+
+.transaction--ai-prompt-create .transaction__icon {
+  background: #e8f8ef;
+  color: #18a558;
 }
 
 .transaction__content {
@@ -238,6 +270,11 @@
 
   .transactions__summary {
     grid-template-columns: repeat(2, 1fr);
+    width: 100%;
+  }
+
+  .transactions__list {
+    width: 100%;
   }
 }
 
@@ -250,18 +287,24 @@
   }
 
   .transactions__summary {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    width: 100%;
   }
 
   .transaction {
     flex-direction: column;
     align-items: flex-start;
+    margin: 0 0.5rem;
   }
 
   .transaction__amount {
     width: 100%;
     text-align: left;
     margin-top: 0.8rem;
+  }
+
+  .transactions__list {
+    width: 100%;
   }
 }
 
@@ -287,5 +330,9 @@
   .transaction__icon {
     width: 4rem;
     height: 4rem;
+  }
+
+  .transactions__list {
+    width: 100%;
   }
 }

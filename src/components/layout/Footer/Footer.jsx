@@ -24,7 +24,7 @@ const Footer = () => {
               <Link to="/">{t("footer.quickLinks.home")}</Link>
             </li>
             <li>
-              <Link to="/about">{t("footer.quickLinks.about")}</Link>
+              <Link to="/help-support">{t("navigation.help")}</Link>
             </li>
             <li>
               <Link to="/contact">{t("footer.quickLinks.contact")}</Link>

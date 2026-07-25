@@ -39,6 +39,7 @@ const ENDPOINTS = {
 
   STATISTICS: {
     PROFILE_STATS: "/statistics/get-profile-stats",
+    TRANSACTION_HISTORY: "/statistics/get-transaction-history"
   }
 };
 

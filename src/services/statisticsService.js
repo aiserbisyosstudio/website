@@ -9,3 +9,12 @@ export const getUserProfileStatistics = async (payload) => {
 
   return response.data;
 };
+
+export const getUserTransactionHisotry = async (payload) => {
+  const response = await api.post(
+    ENDPOINTS.STATISTICS.TRANSACTION_HISTORY,
+    payload
+  );
+
+  return response.data;
+};

@@ -3,13 +3,28 @@ import usePageTitle from "../../../hooks/usePageTitle";
 import { useEffect, useRef, useState } from "react";
 import { FaExchangeAlt } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import { getUserTransactionHisotry } from "@/services/statisticsService";
+import {
+  IoImageOutline,
+  IoColorWandOutline,
+  IoImagesOutline,
+  IoSearchOutline,
+  IoVideocamOutline,
+  IoFilmOutline,
+  IoAnalyticsOutline,
+  IoArrowForwardCircleOutline,
+  IoInformationCircleOutline,
+  IoDocumentText,
+} from "react-icons/io5";
 
 export default function TransactionHistory() {
   usePageTitle("Transaction History | AISerbisyosStudio");
   const plan = useSelector((state) => state.user.plan);
+  const user = useSelector((state) => state.user.profile);
   const [value, setValue] = useState("15");
   const [open, setOpen] = useState(false);
   const [option, setOption] = useState("Last 15 days");
+  const [history, setHistory] = useState([]);
   const wrapperRef = useRef(null);
   const transactionFilterOptions = [
     {
@@ -40,14 +55,31 @@ export default function TransactionHistory() {
     {
       id: 106,
       option: "Last 2 years",
-      value: "30",
+      value: "730",
     },
     {
       id: 107,
       option: "All",
-      value: "0",
+      value: "All",
     },
   ];
+
+  const getTransactionHistory = async () => {
+    try {
+      const response = await getUserTransactionHisotry({
+        userId: user._id,
+        days: parseInt(value),
+      });
+      console.log(response);
+      setHistory(response.history);
+    } catch (error) {
+      setHistory([]);
+    }
+  };
+
+  useState(() => {
+    getTransactionHistory();
+  }, [value]);
 
   const filteredOptions = transactionFilterOptions.filter((item) =>
     item.option.toLowerCase().includes(option.toLowerCase()),
@@ -66,6 +98,44 @@ export default function TransactionHistory() {
   }, []);
 
   const formatNumber = (num) => new Intl.NumberFormat("en-IN").format(num);
+
+  const getIcon = (title) => {
+    let icon;
+    switch (title) {
+      case "AI Image Create":
+        icon = <IoImageOutline />;
+        break;
+      case "AI Image Edit":
+        icon = <IoColorWandOutline />;
+        break;
+      case "AI Image Collage":
+        icon = <IoImagesOutline />;
+        break;
+      case "AI Image Analyze":
+        icon = <IoSearchOutline />;
+        break;
+      case "AI Video Create":
+        icon = <IoVideocamOutline />;
+        break;
+      case "AI Video Edit":
+        icon = <IoFilmOutline />;
+        break;
+      case "AI Video Analyze":
+        icon = <IoAnalyticsOutline />;
+        break;
+      case "AI Prompt Create":
+        icon = <IoDocumentText />;
+        break;
+    }
+    return icon;
+  };
+
+  const getClassName = (text) =>
+    text
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9\s-]/g, "")
+      .replace(/\s+/g, "-");
 
   return (
     <div className="transactions">
@@ -138,7 +208,9 @@ export default function TransactionHistory() {
           <span className="summary-card__icon">⬆</span>
 
           <div className="summary-card__content">
-            <h3>{formatNumber(plan.purchasedCredits - plan.remainingCredits)}</h3>
+            <h3>
+              {formatNumber(plan.purchasedCredits - plan.remainingCredits)}
+            </h3>
             <p>Spent</p>
           </div>
         </div>
@@ -149,44 +221,28 @@ export default function TransactionHistory() {
           </span>
 
           <div className="summary-card__content">
-            <h3>2</h3>
+            <h3>{history.length}</h3>
             <p>Total Transactions</p>
           </div>
         </div>
       </div>
 
       <div className="transactions__list">
-        {/* Buy */}
-        <div className="transaction transaction--buy">
-          <div className="transaction__icon">⬇</div>
+        {history.map((item) => (
+          <div className={`transaction transaction--${getClassName(item.title)}`} key={item.id}>
+            <div className="transaction__icon">{getIcon(item.title)}</div>
 
-          <div className="transaction__content">
-            <h4>Credits Purchased</h4>
-            <p>Premium Plan</p>
-            <span>26 Jul 2026 • 10:30 AM</span>
+            <div className="transaction__content">
+              <h4>{item.title}</h4>
+              <span>{item.date}</span>
+            </div>
+
+            <div className="transaction__amount">
+              <span className="negative">{item.credits}</span>
+              <small>{item.status}</small>
+            </div>
           </div>
-
-          <div className="transaction__amount">
-            <span className="positive">+500 Credits</span>
-            <small>₹499</small>
-          </div>
-        </div>
-
-        {/* Spend */}
-        <div className="transaction transaction--spent">
-          <div className="transaction__icon">✨</div>
-
-          <div className="transaction__content">
-            <h4>AI Image Generation</h4>
-            <p>Generated 2 Images</p>
-            <span>26 Jul 2026 • 11:00 AM</span>
-          </div>
-
-          <div className="transaction__amount">
-            <span className="negative">-100 Credits</span>
-            <small>Completed</small>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );
