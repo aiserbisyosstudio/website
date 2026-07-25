@@ -26,15 +26,11 @@ export const getProfile = async (payload) => {
 };
 
 export const updateProfilePhoto = async (payload) => {
-  const response = await api.post(
-    ENDPOINTS.USER.UPDATE_PHOTO,
-    payload,
-    {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
+  const response = await api.post(ENDPOINTS.USER.UPDATE_PHOTO, payload, {
+    headers: {
+      "Content-Type": "multipart/form-data",
     },
-  );
+  });
 
   return response.data;
 };

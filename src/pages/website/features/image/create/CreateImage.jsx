@@ -136,12 +136,7 @@ export default function CreateImage() {
     setImage(null);
   };
 
-  const imageSizeSelected = (image) => {
-    setSelectedImageSize(image.value);
-    setSelectedImage(image.label);
-  };
-
-  const downloadImage = async (fileName = "AIImage.png") => {
+  const downloadImage = async (fileName = "AICreatedImage.png") => {
     try {
       const response = await fetch(image);
       const blob = await response.blob();
@@ -167,7 +162,7 @@ export default function CreateImage() {
       const response = await fetch(image);
       const blob = await response.blob();
 
-      const file = new File([blob], "image.jpg", {
+      const file = new File([blob], "AICreatedImage.png", {
         type: blob.type,
       });
 
@@ -201,7 +196,7 @@ export default function CreateImage() {
       <div className="image-page">
         <div className="preview-card">
           {loading ? (
-            <LoadingStatus loadingMessages={loadingMessages} />
+            <LoadingStatus loadingMessages={loadingMessages}  headingText="Creating Your Image"/>
           ) : image ? (
             <>
               <div className="image-preview">

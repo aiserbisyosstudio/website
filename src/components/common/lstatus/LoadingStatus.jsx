@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./LoadingStatus.css";
 
-export default function LoadingStatus({ loadingMessages }) {
+export default function LoadingStatus({ loadingMessages, headingText }) {
   const [messageIndex, setMessageIndex] = useState(0);
 
   useEffect(() => {
@@ -22,7 +22,7 @@ export default function LoadingStatus({ loadingMessages }) {
         <span></span>
       </div>
 
-      <h3 className="loading-title">Creating Your Image</h3>
+      <h3 className="loading-title">{headingText}</h3>
 
       <p className="loading-message">
         {loadingMessages[messageIndex]}

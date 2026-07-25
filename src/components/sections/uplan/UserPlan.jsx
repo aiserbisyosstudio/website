@@ -26,7 +26,6 @@ export default function UserPlan({ user, plan, usage, t }) {
         acc[`${item._id.type}_${item._id.operation}`] = item.count;
         return acc;
       }, {});
-      console.log(flattened);
       setStatistics(flattened);
     } catch (error) {
       setStatistics([]);

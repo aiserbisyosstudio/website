@@ -7,10 +7,12 @@ import { useEffect, useRef, useState } from "react";
 import { IoArrowBack } from "react-icons/io5";
 import Input from "@/components/common/input/Input";
 import Button from "@/components/common/button/Button";
-import { generateAiPrompt, generateAiImage } from "@/services/serbisyosService";
+import { generateAiPrompt, editAiImage } from "@/services/serbisyosService";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import ConfirmPopup from "@/components/common/confirm/ConfirmPopup";
+import LoadingStatus from "../../../../../components/common/lstatus/LoadingStatus";
+import { FiDownload, FiShare2 } from "react-icons/fi";
 
 export default function EditImage() {
   usePageTitle("Edit Image | AISerbisyosStudio");
@@ -84,7 +86,7 @@ export default function EditImage() {
     setShowPromptConfirm(true);
   };
 
-  const editImage = () => {
+  const editImage = async () => {
     if (!original) {
       toast.error("Please upload an image to edit");
       return;
@@ -98,14 +100,30 @@ export default function EditImage() {
     }
 
     try {
+      setLoading(true);
       setLoadingButton("EDIT_IMAGE");
+
       const formData = new FormData();
       formData.append("image", selectedFile);
       formData.append("prompt", prompt);
       formData.append("userId", user._id);
-    } catch (error) {
+      
+      const response = await editAiImage(formData);
       setLoadingButton(null);
-      clearEditImage();
+      setLoading(false);
+      
+      if( response.success ) {
+        setImage(response.image_url);
+        setOriginal(null);
+        setSelectedFile(null);
+        toast.success("Image edited successfully");
+      } else {
+        setImage(null);
+        toast.success("Failed to create image");
+      }
+    } catch (error) {
+      setLoading(false);
+      setLoadingButton(null);
       toast.error(error.response?.data?.message || "Failed to edit image");
     }
   };
@@ -148,6 +166,57 @@ export default function EditImage() {
     }
   };
 
+   const downloadImage = async (fileName = "AIEditedImage.png") => {
+    try {
+      const response = await fetch(image);
+      const blob = await response.blob();
+
+      const blobUrl = window.URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = fileName;
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      window.URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      console.error("Download failed:", error);
+    }
+  };
+
+  const shareImage = async () => {
+    try {
+      const response = await fetch(image);
+      const blob = await response.blob();
+
+      const file = new File([blob], "AIEditedImage.png", {
+        type: blob.type,
+      });
+
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          title: "AI Generated Image",
+          text: "Check out this image!",
+          files: [file],
+        });
+      } else if (navigator.share) {
+        await navigator.share({
+          title: "AI Generated Image",
+          text: "Check out this image!",
+          url: image,
+        });
+      } else {
+        await navigator.clipboard.writeText(image);
+        alert("Sharing is not supported. Image URL copied to clipboard.");
+      }
+    } catch (error) {
+      console.error("Share failed:", error);
+    }
+  };
+
   return (
     <>
       <section className="create-image">
@@ -159,7 +228,7 @@ export default function EditImage() {
         <div className="image-page">
           <div className="preview-card">
             {loading ? (
-              <LoadingStatus loadingMessages={loadingMessages} />
+              <LoadingStatus loadingMessages={loadingMessages} headingText="Editing Your Image"/>
             ) : image ? (
               <>
                 <div className="image-preview">

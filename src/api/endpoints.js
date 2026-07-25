@@ -33,6 +33,8 @@ const ENDPOINTS = {
   SERBISYOS_AI: {
     GENERATE_PROMPT: "/serbisyos/generate-prompt",
     CREATE_IMAGE: "/serbisyos/generate-image",
+    EDIT_IMAGE: "/serbisyos/edit-image",
+    CREATE_IMAGE_COLLAGE: "/serbisyos/create-image-collage"
   },
 
   STATISTICS: {
