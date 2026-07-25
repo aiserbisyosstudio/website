@@ -14,8 +14,10 @@ import { FaPenNib, FaDownload } from "react-icons/fa";
 import { IoArrowForwardOutline } from "react-icons/io5";
 import { IoSparkles } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function Features({ t }) {
+  const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
   const navigate = useNavigate();
   const features = [
     {
@@ -77,7 +79,7 @@ export default function Features({ t }) {
   ];
 
   const navigateTo = (pageUrl) => {
-    console.log("Page url: ", pageUrl);
+    if(!isLoggedIn) return;
     navigate(pageUrl, { replace: true });
   };
 
