@@ -55,7 +55,7 @@ export default function TermsConditions() {
         <span>Back</span>
       </Link>
       <div className="privacy-container">
-        <h1>Privacy Policy</h1>
+        <h1>Terms & Conditions</h1>
 
         <p className="last-updated">Last Updated: June 27, 2026</p>
 
