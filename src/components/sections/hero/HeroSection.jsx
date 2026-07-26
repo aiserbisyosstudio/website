@@ -41,7 +41,7 @@ const HeroSection = ({ t }) => {
         </h1>
         <p className="hero-description">{t("home.hero.description")}</p>
         <div className="hero-actions">
-          <button className="btn-primary" onClick={() => navigate("/features")}>
+          <button className="btn-primary" onClick={() => navigate("/features/image/create")}>
             {t("home.hero.buttons.startCreating")} <IoArrowForward className="btn-icon" />
           </button>
 
